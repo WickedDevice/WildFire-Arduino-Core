@@ -3,6 +3,7 @@ wildfirev2.name=WildFire v2
 wildfirev2.upload.protocol=wiring
 wildfirev2.upload.maximum_size=122878
 wildfirev2.upload.speed=38400
+wildfirev2.upload.tool=avrdude
 
 wildfirev2.bootloader.low_fuses=0xd7
 wildfirev2.bootloader.high_fuses=0xd8
@@ -26,6 +27,7 @@ wildfirev3.name=WildFire v3
 wildfirev3.upload.protocol=wiring
 wildfirev3.upload.maximum_size=122878
 wildfirev3.upload.speed=38400
+wildfirev3.upload.tool=avrdude
 
 wildfirev3.bootloader.low_fuses=0xd7
 wildfirev3.bootloader.high_fuses=0xd8

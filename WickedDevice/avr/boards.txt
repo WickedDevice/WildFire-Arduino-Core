@@ -7,7 +7,7 @@ wildfirev2.upload.tool=avrdude
 
 wildfirev2.bootloader.low_fuses=0xd7
 wildfirev2.bootloader.high_fuses=0xd8
-wildfirev2.bootloader.extended_fuses=0xfc
+wildfirev2.bootloader.extended_fuses=0xfd
 wildfirev2.bootloader.path=stk500v2
 wildfirev2.bootloader.file=stk500boot_v2_wildfire.hex
 wildfirev2.bootloader.unlock_bits=0x3F
@@ -31,7 +31,7 @@ wildfirev3.upload.tool=avrdude
 
 wildfirev3.bootloader.low_fuses=0xd7
 wildfirev3.bootloader.high_fuses=0xd8
-wildfirev3.bootloader.extended_fuses=0xfc
+wildfirev3.bootloader.extended_fuses=0xfd
 wildfirev3.bootloader.path=stk500v2
 wildfirev3.bootloader.file=stk500boot_v3_wildfire.hex
 wildfirev3.bootloader.unlock_bits=0x3F

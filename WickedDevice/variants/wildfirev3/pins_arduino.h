@@ -11,6 +11,8 @@
 
 #include <avr/pgmspace.h>
 
+#define WILDFIRE_VERSION 3
+
 //                    ATMEL ATMEGA1284P on Wildfire
 //                    Actual implementation with TQFP
 //

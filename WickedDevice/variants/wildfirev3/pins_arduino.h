@@ -12,41 +12,47 @@
 #include <avr/pgmspace.h>
 
 #define WILDFIRE_VERSION 3
+#define CORE_WILDFIRE
 
 //                    ATMEL ATMEGA1284P on Wildfire
 //                    Actual implementation with TQFP
 //
-//                               +---\/---+
-//            PCINT8 (D14) PB0  1|        |40  PA0 (AI 0 / D24) PCINT0
-//            PCINT9 (D15) PB1  2|        |39  PA1 (AI 1 / D25) PCINT1
-//      PCINT10/INT2 (D 8) PB2  3|        |38  PA2 (AI 2 / D26) PCINT2
-//      PCINT11/OC0A*(D 9) PB3  4|        |37  PA3 (AI 3 / D27) PCINT3
-//   PCINT12/0C0B/SS*(D10) PB4  5|        |36  PA4 (AI 4 / D28) PCINT4
-//      PCINT13/MOSI (D11) PB5  6|        |35  PA5 (AI 5 / D29) PCINT5
-// PCINT14/OC3A/MISO*(D12) PB6  7|        |34  PA6 (AI 6 / D30) PCINT6
-//  PCINT15/OC3B/SCK*(D13) PB7  8|        |33  PA7 (AI 7 / D31) PCINT7
-//                         RST  9|        |32  AREF
-//                         VCC 10|        |31  GND 
-//                         GND 11|        |30  AVCC
-//                       XTAL2 12|        |29  PC7 (D23) TOSC2/PCINT23
-//                       XTAL1 13|        |28  PC6 (D22) TOSC1/PCINT22
-//       PCINT24/RX0 (D 0) PD0 14|        |27  PC5 (D21) TDI/PCINT21
-//       PCINT25/TX0 (D 1) PD1 15|        |26  PC4 (D20) TDO/PCINT20
-//  PCINT26/INT0/RX1 (D 2) PD2 16|        |25  PC3 (D19) TMS/PCINT19
-//  PCINT27/INT1/TX1 (D 3) PD3 17|        |24  PC2 (D18) TCK/PCINT18
-//      PCINT28/OC1B*(D 4) PD4 18|        |23  PC1 (D17) SDA/PCINT17
-//      PCINT29/OC1A*(D 5) PD5 19|        |22  PC0 (D16) SCL/PCINT16
-//      PCINT30/OC2B*(D 6) PD6 20|        |21  PD7 (D 7)*OC2A/PCINT31
-//                               +--------+
+//                                +---\/---+
+// PCINT13/ICP3/MOSI  (D11) PB5  1|        |44  PB4 (D 9)* PCINT12/OC0B/SS
+// PCINT14/OC3A/MISO *(D12) PB6  2|        |43  PB3 (D 4)* PCINT11/AIN1/OC0A
+//  PCINT15/OC3B/SCK *(D13) PB7  3|        |42  PB2 (D22) PCINT10/AIN0/INT2
+//                        RESET  4|        |41  PB1 (D23) PCINT9/T1/CLK0
+//                          VCC  5|        |40  PB0 (D21) PCINT8/XCK0/T0
+//                          GND  6|        |39  GND
+//                        XTAL2  7|        |38  VCC
+//                        XTAL1  8|        |37  PA0 (D24/AIN0) PCINT0/ADC0
+//    PCINT24/RXD0/T3 (D 0) PD0  9|        |36  PA1 (D25/AIN1) PCINT1/ADC1
+//       PCINT25/TXD0 (D 1) PD1 10|        |35  PA2 (D26/AIN2) PCINT2/ADC2
+//  PCINT26/RXD1/INT0 (D 2) PD2 11|        |34  PA3 (D27/AIN3) PCINT3/ADC3
+//  PCINT27/TXD1/INT1 (D 3) PD3 12|        |33  PA4 (D28/AIN4) PCINT4/ADC4
+// PCINT28/XCK1/OC1B *(D 8) PD4 13|        |32  PA5 (D29/AIN5) PCINT5/ADC5
+//      PCINT29/OC1A *(D 5) PD5 14|        |31  PA6 (D30/AIN6) PCINT6/ADC6
+//   PCINT30/OC2B/ICP (D 6) PD6 15|        |30  PA7 (D31/AIN7) PCINT7/ADC7
+//       PCINT31/OC2A (D10) PD7 16|        |29  AREF
+//                          VCC 17|        |28  GND
+//                          GND 18|        |27  AVCC
+//        PCINT16/SCL (D20) PC0 19|        |26  PC7 (D18) PCINT23/TOSC2
+//        PCINT17/SDA (D19) PC1 20|        |25  PC6 (D17) PCINT22/TOSC1
+//        PCINT17/SDA (D15) PC2 21|        |24  PC5 (D16) PCINT21/TDI
+//        PCINT17/SDA (D 7) PC3 22|        |23  PC4 (D14) PCINT20/TDO
+//                                +--------+
 //
-// D 3 dedicated to CC3000 Enable
-// D 4 dedicated to SD Card Socket
-// D 9 dedicated to CC3000 IRQ
-// D10 dedicated to CC3000 SPI Slave Select
-//
-// * = PWM capable pin
-// TOSCn = RTC Crystal pinout
-// TCK/TMS/TDO/TDI = JTAG pinout
+// D 2 dedicated to RFM69 IRQ                  *** do not set to output ***
+// D22 dedicated to CC3000 IRQ                 *** do not set to ouput ***
+// D 6 connected to LED (buffered) 
+// D14 connected to tinyWDT pet interface 
+// D 7 dedicated to RFM69 Chip Select          *** mutually exclusive output low ***
+// D15 dedicated to External Flash Chip Select *** mutually exclusive output low ***
+// D16 dedicated to SD Card Socket Chip Select *** mutually exclusive output low ***
+// D21 dedicated to CC3000 Chip Select         *** mutually exclusive output low ***
+// D17 dedicated to RTC crystal
+// D18 dedicated to RTC crystal
+// D23 dedicated to CC3000 VBAT
 
 /*                       
                          PCICR
@@ -83,6 +89,11 @@ static const uint8_t A7 = 31;
 #define digitalPinToPCICR(p)    (((p) >= 0 && (p) < NUM_DIGITAL_PINS) ? (&PCICR) : ((uint8_t *)0))
 #define digitalPinToPCICRbit(p) ((p) > 23 ? 0 : (((p) > 13 && (p) < 21) || ((p) == 7) ? 2 : (((p) > 10) || ((p) == 9) || ((p) == 4) ? 1 : 3)))
 #define digitalPinToPCMSK(p)    ((p) < 32 ? ((p) > 23 ? (&PCMSK0) : (((p) > 13 && (p) < 21) || ((p) == 7) ? (&PCMSK2) : (((p) > 10) || ((p) == 9) || ((p) == 4) ? (&PCMSK1) : (&PCMSK3)))) : ((uint8_t *)0))
+
+#ifndef NOT_AN_INTERRUPT
+#define NOT_AN_INTERRUPT (-1)
+#endif
+#define digitalPinToInterrupt(p)  ((p) == 2 ? 0 : ((p) == 3 ? 1 : ((p) == 22 ? 2 : NOT_AN_INTERRUPT)))
 
 #ifndef ARDUINO_MAIN
 extern const uint8_t PROGMEM digital_pin_to_PCMSK_bit_PGM;

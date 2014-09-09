@@ -1,6 +1,5 @@
 # 1 "baudcheck.c"
-# 1 "/Volumes/Downloads/src/optiboot-2014/optiboot/bootloaders/optiboot//"
-# 1 "<built-in>"
+# 1 "/home/vic/sketchbook/hardware/WickedDevice/bootloaders/optiboot//"
 # 1 "<command-line>"
 # 1 "baudcheck.c"
 # 20 "baudcheck.c"

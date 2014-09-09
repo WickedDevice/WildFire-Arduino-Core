@@ -102,7 +102,7 @@ bobuino_isp: isp
 wildfirev2: TARGET = $@
 wildfirev2: CHIP = atmega1284p
 wildfirev2:
-	$(MAKE) $(CHIP) AVR_FREQ=16000000L LED=B7 BAUD_RATE=115200
+	$(MAKE) $(CHIP) AVR_FREQ=16000000L LED=B7 BAUD_RATE=1000000
 	mv $(PROGRAM)_$(CHIP).hex $(PROGRAM)_$(TARGET).hex
 	mv $(PROGRAM)_$(CHIP).lst $(PROGRAM)_$(TARGET).lst
 

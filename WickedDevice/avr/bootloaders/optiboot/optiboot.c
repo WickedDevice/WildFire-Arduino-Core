@@ -16,7 +16,6 @@
 /*                                                        */
 /* Enhancements:                                          */
 /*   Fits in 512 bytes, saving 1.5K of code space         */
-/*   Background page erasing speeds up programming        */
 /*   Higher baud rate speeds up programming               */
 /*   Written almost entirely in C                         */
 /*   Customisable timeout with accurate timeconstant      */
@@ -150,8 +149,16 @@
 /**********************************************************/
 /* Edit History:					  */
 /*							  */
+/* Aug 2014						  */
+/* 6.2 WestfW: make size of length variables dependent    */
+/*              on the SPM_PAGESIZE.  This saves space    */
+/*              on the chips where it's most important.   */
+/* 6.1 WestfW: Fix OPTIBOOT_CUSTOMVER (send it!)	  */
+/*             Make no-wait mod less picky about	  */
+/*               skipping the bootloader.		  */
+/*             Remove some dead code			  */
 /* Jun 2014						  */
-/* 6.0 WestfW: modularize memory read/write functions	  */
+/* 6.0 WestfW: Modularize memory read/write functions	  */
 /*             Remove serial/flash overlap		  */
 /*              (and all references to NRWWSTART/etc)	  */
 /*             Correctly handle pagesize > 255bytes       */
@@ -159,7 +166,15 @@
 /*             EEPROM write on small chips now causes err */
 /*             Split Makefile into smaller pieces         */
 /*             Add Wicked devices Wildfire		  */
+/*	       Move UART=n conditionals into pin_defs.h   */
 /*	       Remove LUDICOUS_SPEED option		  */
+/*	       Replace inline assembler for .version      */
+/*              and add OPTIBOOT_CUSTOMVER for user code  */
+/*             Fix LED value for Bobuino (Makefile)       */
+/*             Make all functions explicitly inline or    */
+/*              noinline, so we fit when using gcc4.8     */
+/*             Change optimization options for gcc4.8	  */
+/*             Make ENV=arduino work in 1.5.x trees.	  */
 /* May 2014                                               */
 /* 5.0 WestfW: Add support for 1Mbps UART                 */
 /* Mar 2013                                               */
@@ -205,14 +220,21 @@
 /**********************************************************/
 
 #define OPTIBOOT_MAJVER 6
-#define OPTIBOOT_MINVER 0
+#define OPTIBOOT_MINVER 2
 
-#define MAKESTR(a) #a
-#define MAKEVER(a, b) MAKESTR(a*256+b)
+/*
+ * OPTIBOOT_CUSTOMVER should be defined (by the makefile) for custom edits
+ * of optiboot.  That way you don't wind up with very different code that
+ * matches the version number of a "released" optiboot.
+ */
 
-asm("  .section .version\n"
-    "optiboot_version:  .word " MAKEVER(OPTIBOOT_MAJVER, OPTIBOOT_MINVER) "\n"
-    "  .section .text\n");
+#if !defined(OPTIBOOT_CUSTOMVER)
+#define OPTIBOOT_CUSTOMVER 0
+#endif
+
+unsigned const int __attribute__((section(".version"))) 
+optiboot_version = 256*(OPTIBOOT_MAJVER + OPTIBOOT_CUSTOMVER) + OPTIBOOT_MINVER;
+
 
 #include <inttypes.h>
 #include <avr/io.h>
@@ -231,8 +253,14 @@ asm("  .section .version\n"
 
 /*
  * pin_defs.h
+ * This contains most of the rather ugly defines that implement our
+ * ability to use UART=n and LED=D3, and some avr family bit name differences.
  */
 #include "pin_defs.h"
+
+/*
+ * stk500.h contains the constant definitions for the stk500v1 comm protocol
+ */
 #include "stk500.h"
 
 #ifndef LED_START_FLASHES
@@ -270,20 +298,6 @@ asm("  .section .version\n"
 #warning BAUD_RATE error greater than -2%
 #endif
 
-#if 0
-/* Switch in soft UART for hard baud rates */
-/*
- * I don't understand what this was supposed to accomplish, where the
- * constant "280" came from, or why automatically (and perhaps unexpectedly)
- * switching to a soft uart is a good thing, so I'm undoing this in favor
- * of a range check using the same calc used to config the BRG...
- */
-#if (F_CPU/BAUD_RATE) > 280 // > 57600 for 16MHz
-#ifndef SOFT_UART
-#define SOFT_UART
-#endif
-#endif
-#else // 0
 #if (F_CPU + BAUD_RATE * 4L) / (BAUD_RATE * 8L) - 1 > 250
 #error Unachievable baud rate (too slow) BAUD_RATE 
 #endif // baud rate slow check
@@ -292,7 +306,6 @@ asm("  .section .version\n"
 #error Unachievable baud rate (too fast) BAUD_RATE 
 #endif
 #endif // baud rate fastn check
-#endif
 
 /* Watchdog settings */
 #define WATCHDOG_OFF    (0)
@@ -309,6 +322,20 @@ asm("  .section .version\n"
 #define WATCHDOG_8S     (_BV(WDP3) | _BV(WDP0) | _BV(WDE))
 #endif
 
+
+/*
+ * We can never load flash with more than 1 page at a time, so we can save
+ * some code space on parts with smaller pagesize by using a smaller int.
+ */
+#if SPM_PAGESIZE > 255
+typedef uint16_t pagelen_t ;
+#define GETLENGTH(len) len = getch()<<8; len |= getch()
+#else
+typedef uint8_t pagelen_t;
+#define GETLENGTH(len) (void) getch() /* skip high byte */; len = getch()
+#endif
+
+
 /* Function Prototypes
  * The main() function is in init9, which removes the interrupt vector table
  * we don't need. It is also 'OS_main', which means the compiler does not
@@ -318,19 +345,18 @@ asm("  .section .version\n"
 
 int main(void) __attribute__ ((OS_main)) __attribute__ ((section (".init9")));
 
-void putch(char);
-uint8_t getch(void);
-void verifySpace();
-uint8_t getLen();
-void watchdogConfig(uint8_t x);
+void __attribute__((noinline)) putch(char);
+uint8_t __attribute__((noinline)) getch(void);
+void __attribute__((noinline)) verifySpace();
+void __attribute__((noinline)) watchdogConfig(uint8_t x);
 
 static inline void getNch(uint8_t);
 static inline void flash_led(uint8_t);
 static inline void watchdogReset();
 static inline void writebuffer(int8_t memtype, uint8_t *mybuff,
-			       uint16_t address, uint16_t len);
+			       uint16_t address, pagelen_t len);
 static inline void read_mem(uint8_t memtype,
-			    uint16_t address, uint16_t len);
+			    uint16_t address, pagelen_t len);
 
 #ifdef SOFT_UART
 void uartDelay() __attribute__ ((naked));
@@ -340,7 +366,9 @@ void appStart(uint8_t rstFlags) __attribute__ ((naked));
 /*
  * RAMSTART should be self-explanatory.  It's bigger on parts with a
  * lot of peripheral registers.  Let 0x100 be the default
+ * Note that RAMSTART (for optiboot) need not be exactly at the start of RAM.
  */
+#if !defined(RAMSTART)  // newer versions of gcc avr-libc define RAMSTART
 #define RAMSTART 0x100
 #if defined (__AVR_ATmega644P__)
 // correct for a bug in avr-libc
@@ -349,6 +377,7 @@ void appStart(uint8_t rstFlags) __attribute__ ((naked));
 #elif defined(__AVR_ATmega1280__)
 #undef RAMSTART
 #define RAMSTART (0x200)
+#endif
 #endif
 
 /* C zero initialises all global variables. However, that requires */
@@ -372,7 +401,7 @@ int main(void) {
    *  necessary, and uses 4 bytes of flash.)
    */
   register uint16_t address = 0;
-  register uint16_t  length;
+  register pagelen_t  length;
 
   // After the zero init loop, this is the first code to run.
   //
@@ -388,10 +417,16 @@ int main(void) {
   SP=RAMEND;  // This is done by hardware reset
 #endif
 
-  // Adaboot no-wait mod
+  /*
+   * modified Adaboot no-wait mod.
+   * Pass the reset reason to app.  Also, it appears that an Uno poweron
+   * can leave multiple reset flags set; we only want the bootloader to
+   * run on an 'external reset only' status
+   */
   ch = MCUSR;
   MCUSR = 0;
-  if (!(ch & _BV(EXTRF))) appStart(ch);
+  if (ch & (_BV(WDRF) | _BV(BORF) | _BV(PORF)))
+      appStart(ch);
 
 #if LED_START_FLASHES > 0
   // Set up Timer 1 for timeout counter
@@ -438,13 +473,14 @@ int main(void) {
     if(ch == STK_GET_PARAMETER) {
       unsigned char which = getch();
       verifySpace();
+      /*
+       * Send optiboot version as "SW version"
+       * Note that the references to memory are optimized away.
+       */
       if (which == 0x82) {
-	/*
-	 * Send optiboot version as "minor SW version"
-	 */
-	putch(OPTIBOOT_MINVER);
+	  putch(optiboot_version & 0xFF);
       } else if (which == 0x81) {
-	  putch(OPTIBOOT_MAJVER);
+	  putch(optiboot_version >> 8);
       } else {
 	/*
 	 * GET PARAMETER returns a generic 0x03 reply for
@@ -484,10 +520,9 @@ int main(void) {
       // PROGRAM PAGE - we support flash programming only, not EEPROM
       uint8_t desttype;
       uint8_t *bufPtr;
-      uint16_t savelength;
+      pagelen_t savelength;
 
-      length = getch()<<8;			/* getlen() */
-      length |= getch();
+      GETLENGTH(length);
       savelength = length;
       desttype = getch();
 
@@ -525,8 +560,8 @@ int main(void) {
     /* Read memory block mode, length is big endian.  */
     else if(ch == STK_READ_PAGE) {
       uint8_t desttype;
-      length = getch()<<8;			/* getlen() */
-      length |= getch();
+      GETLENGTH(length);
+
       desttype = getch();
 
       verifySpace();
@@ -735,7 +770,7 @@ void appStart(uint8_t rstFlags) {
  * void writebuffer(memtype, buffer, address, length)
  */
 static inline void writebuffer(int8_t memtype, uint8_t *mybuff,
-			       uint16_t address, uint16_t len)
+			       uint16_t address, pagelen_t len)
 {
     switch (memtype) {
     case 'E': // EEPROM
@@ -798,7 +833,7 @@ static inline void writebuffer(int8_t memtype, uint8_t *mybuff,
     } // switch
 }
 
-static inline void read_mem(uint8_t memtype, uint16_t address, uint16_t length)
+static inline void read_mem(uint8_t memtype, uint16_t address, pagelen_t length)
 {
     uint8_t ch;
 

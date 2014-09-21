@@ -1,5 +1,3 @@
-##############################################################
-
 wildfireo3.name=Wildfire v3 [optiboot]
 wildfireo3.upload.protocol=arduino
 wildfireo3.upload.maximum_size=130048
@@ -15,9 +13,9 @@ wildfireo3.build.mcu=atmega1284p
 wildfireo3.build.f_cpu=16000000L
 wildfireo3.build.core=arduino:arduino
 wildfireo3.build.variant=wildfirev3
-wildfirev3.build.board=WILDFIRE_V3
+wildfireo3.build.board=WILDFIRE_V3
 
-##############################################################
+#####################################
 
 wildfirev2.name=WildFire v2 [stk500]
 wildfirev2.upload.protocol=wiring
@@ -35,51 +33,3 @@ wildfirev2.build.f_cpu=16000000L
 wildfirev2.build.board=WILDFIRE_V2
 wildfirev2.build.core=arduino:arduino
 wildfirev2.build.variant=wildfirev2
-
-##############################################################
-#
-# - The descriptions below are also possible,
-#   but these are not the normal configurations of WildFire.
-# - Enable them by removing the leading hash symbols on the
-#   associated lines
-# - If in doubt, use an ISP programmer to Burn Bootloader
-#
-##############################################################
-#
-# wildfireo2.name=Wildfire v2 [optiboot]
-# wildfireo2.upload.protocol=arduino
-# wildfireo2.upload.maximum_size=130048
-# wildfireo2.upload.speed=115200
-# wildfireo2.bootloader.low_fuses=0xf7
-# wildfireo2.bootloader.high_fuses=0xde
-# wildfireo2.bootloader.extended_fuses=0xfd
-# wildfireo2.bootloader.path=optiboot
-# wildfireo2.bootloader.file=optiboot_wildfirev2.hex
-# wildfireo2.bootloader.unlock_bits=0x3F
-# wildfireo2.bootloader.lock_bits=0x0F
-# wildfireo2.build.mcu=atmega1284p
-# wildfireo2.build.f_cpu=16000000L
-# wildfireo2.build.core=arduino:arduino
-# wildfireo2.build.variant=wildfirev2
-# wildfirev2.build.board=WILDFIRE_V2
-# 
-##############################################################
-# 
-# wildfirev3.name=WildFire v3 [stk500]
-# wildfirev3.upload.protocol=wiring
-# wildfirev3.upload.maximum_size=122878
-# wildfirev3.upload.speed=38400
-# wildfirev3.bootloader.low_fuses=0xd7
-# wildfirev3.bootloader.high_fuses=0xd8
-# wildfirev3.bootloader.extended_fuses=0xfd
-# wildfirev3.bootloader.path=stk500v2
-# wildfirev3.bootloader.file=stk500boot_v2_wildfire.hex
-# wildfirev3.bootloader.unlock_bits=0x3F
-# wildfirev3.bootloader.lock_bits=0x0F
-# wildfirev3.build.mcu=atmega1284p
-# wildfirev3.build.f_cpu=16000000L
-# wildfirev3.build.board=WILDFIRE_V3
-# wildfirev3.build.core=arduino:arduino
-# wildfirev3.build.variant=wildfirev3
-# 
-##############################################################

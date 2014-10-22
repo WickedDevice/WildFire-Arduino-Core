@@ -1,4 +1,4 @@
-wildfireo3.name=Wildfire v3 [optiboot]
+wildfireo3.name=WildFire v3 [optiboot]
 wildfireo3.upload.protocol=arduino
 wildfireo3.upload.maximum_size=130048
 wildfireo3.upload.speed=115200

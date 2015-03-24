@@ -1,0 +1,58 @@
+#
+# Makefile for 40-pin AVR chips, including ATmega644 and ATmega1284
+#
+
+# Chip level targets
+#
+atmega644p: TARGET = atmega644p
+atmega644p: MCU_TARGET = atmega644p
+atmega644p: CFLAGS += $(COMMON_OPTIONS) -DBIGBOOT
+atmega644p: AVR_FREQ ?= 16000000L
+atmega644p: LDSECTIONS  = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+atmega644p: CFLAGS += $(UARTCMD)
+atmega644p: $(PROGRAM)_atmega644p.hex
+atmega644p: $(PROGRAM)_atmega644p.lst
+
+atmega1284: TARGET = atmega1284p
+atmega1284: MCU_TARGET = atmega1284p
+atmega1284: CFLAGS += $(COMMON_OPTIONS) -DBIGBOOT
+atmega1284: AVR_FREQ ?= 16000000L
+atmega1284: LDSECTIONS  = -Wl,--section-start=.text=0x1f000 -Wl,--section-start=.version=0x1fffe
+atmega1284: CFLAGS += $(UARTCMD)
+atmega1284: $(PROGRAM)_atmega1284p.hex
+atmega1284: $(PROGRAM)_atmega1284p.lst
+
+atmega1284p: atmega1284
+
+atmega1284_isp: atmega1284
+atmega1284_isp: TARGET = atmega1284p
+atmega1284_isp: MCU_TARGET = atmega1284p
+# 2048 byte boot
+atmega1284_isp: HFUSE ?= DC
+# Full Swing xtal (16MHz) 16KCK/14CK+65ms
+atmega1284_isp: LFUSE ?= F7
+# 2.7V brownout
+atmega1284_isp: EFUSE ?= FD
+atmega1284_isp: isp
+
+#
+# Board-level targets
+#
+
+wildfirev3: TARGET = $@
+wildfirev3: CHIP = atmega1284p
+wildfirev3:
+	$(MAKE) $(CHIP) AVR_FREQ=16000000L LED=B5
+	mv $(PROGRAM)_$(CHIP).hex $(PROGRAM)_$(TARGET).hex
+	mv $(PROGRAM)_$(CHIP).lst $(PROGRAM)_$(TARGET).lst
+
+wildfirev3_isp: wildfirev3
+wildfirev3_isp: TARGET = wildfirev3
+wildfirev3_isp: MCU_TARGET = atmega1284p
+# 1024 byte boot
+wildfirev3_isp: HFUSE ?= DA
+# Full swing xtal (16MHz) 16KCK/14CK+65ms
+wildfirev3_isp: LFUSE ?= F7
+# 2.7V brownout
+wildfirev3_isp: EFUSE ?= FD
+wildfirev3_isp: isp

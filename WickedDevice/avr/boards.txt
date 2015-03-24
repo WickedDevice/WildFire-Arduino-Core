@@ -18,6 +18,26 @@ wildfireo3.bootloader.tool=arduino:avrdude
 
 #####################################
 
+wildfiredo3.name=WildFire v3 [dual-optiboot]
+wildfiredo3.upload.protocol=arduino
+wildfiredo3.upload.maximum_size=126976
+wildfiredo3.upload.speed=115200
+wildfiredo3.bootloader.low_fuses=0xf7
+wildfiredo3.bootloader.high_fuses=0xda
+wildfiredo3.bootloader.extended_fuses=0xfd
+wildfiredo3.bootloader.file=spiflash_optiboot/optiboot_wildfirev3.hex
+wildfiredo3.bootloader.unlock_bits=0x3F
+wildfiredo3.bootloader.lock_bits=0x0F
+wildfiredo3.build.mcu=atmega1284p
+wildfiredo3.build.f_cpu=16000000L
+wildfiredo3.build.core=arduino:arduino
+wildfiredo3.build.variant=wildfirev3
+wildfiredo3.build.board=WILDFIRE_V3
+wildfiredo3.upload.tool=arduino:avrdude
+wildfiredo3.bootloader.tool=arduino:avrdude
+
+#####################################
+
 wildfirev2.name=WildFire v2 [stk500]
 wildfirev2.upload.protocol=wiring
 wildfirev2.upload.maximum_size=122878

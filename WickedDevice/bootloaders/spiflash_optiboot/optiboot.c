@@ -814,6 +814,23 @@ uint8_t validate_image(uint32_t hex_file_size, uint16_t expected_crc16_checksum,
   return 1;
 }
 
+void invalidate_magic_number_and_reset(void){
+  // Wipe out the Magic Number so that next reset we don't reburn the flash
+  // Don't just erase the sector, because it's useful for the application
+  // to know the signature of the last loaded file by reading out of Flash 
+  FLASH_command(SPIFLASH_BYTEPAGEPROGRAM, 1);  // Byte/Page Program
+  SPI_transfer((uint8_t) ((MAGIC_NUMBER_ADDRESS + 1) >> 16));
+  SPI_transfer((uint8_t) ((MAGIC_NUMBER_ADDRESS + 1) >> 8));
+  SPI_transfer((uint8_t) ((MAGIC_NUMBER_ADDRESS + 1)));
+  SPI_transfer(0x00);   // it's enough to just corrupt the second byte       
+  
+  FLASH_UNSELECT;        
+  
+  watchdogConfig(WATCHDOG_16MS);    // shorten WD timeout
+  while (1)        // and busy-loop so that WD causes
+    ;              // a reset and app start.     
+}
+
 void CheckFlashImage() {
   watchdogConfig(WATCHDOG_OFF);
 
@@ -853,10 +870,10 @@ void CheckFlashImage() {
   magic_number |= FLASH_readByte(MAGIC_NUMBER_ADDRESS + 3);  
   if(magic_number != MAGIC_NUMBER) return;
 
-  flash_wildfire_led(3);
+  //flash_wildfire_led(3);
   
-  WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
-  _delay_ms(100);    
+  //WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
+  //_delay_ms(100);    
   
   // if it is... grab the file size and the checksum out of the Flash
   uint32_t hex_file_size = FLASH_readByte(FILESIZE_ADDRESS);
@@ -878,23 +895,17 @@ void CheckFlashImage() {
     // if the file is deemed valid 
     // then burn the file contained in SPI flash to the MCU flash
     if(validate_image(hex_file_size, expected_crc16_checksum, 1)){
-      WILDFIRE_LED_PORT &= ~_BV(WILDFIRE_LED); // turn off the WildFire LED
-      
-      // Wipe out the Magic Number so that next reset we don't reburn the flash
-      // Don't just erase the sector, because it's useful for the application
-      // to know the signature of the last loaded file by reading out of Flash 
-      FLASH_command(SPIFLASH_BYTEPAGEPROGRAM, 1);  // Byte/Page Program
-      SPI_transfer((MAGIC_NUMBER_ADDRESS + 1) >> 16);
-      SPI_transfer((MAGIC_NUMBER_ADDRESS + 1) >> 8);
-      SPI_transfer((MAGIC_NUMBER_ADDRESS + 1));
-      SPI_transfer(0x00);   // it's enough to just corrupt the second byte
-      FLASH_UNSELECT;          
-      
-      watchdogConfig(WATCHDOG_16MS);    // shorten WD timeout
-      while (1)        // and busy-loop so that WD causes
-        ;              // a reset and app start.    
-    }    
-  } 
+      WILDFIRE_LED_PORT &= ~_BV(WILDFIRE_LED); // turn off the WildFire LED            
+    }
+  }
+  
+  // no matter what, if we get this far, we should invalidate the magic number
+  // and reset the processor to start the application
+  // we know this is OK because either:
+  // a. The image has been successfully and completely burned, or
+  // b. The image is inherently corrupt in some way, and should be discarded
+  // in either case, the magic number should be "rejected"
+  invalidate_magic_number_and_reset();  
 }
 /******************* END SPI FLASH Code ****************************/
 

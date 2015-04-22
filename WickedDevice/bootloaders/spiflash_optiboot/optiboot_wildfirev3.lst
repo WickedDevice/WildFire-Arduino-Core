@@ -1,0 +1,1879 @@
+
+optiboot_atmega1284p.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  0001f98a  00000a1e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000098a  0001f000  0001f000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .version      00000002  0001fffe  0001fffe  00000a1e  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .stab         00001a7c  00000000  00000000  00000a20  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      0000121d  00000000  00000000  0000249c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      00000011  00000000  00000000  000036b9  2**0
+                  CONTENTS, READONLY
+
+Disassembly of section .text:
+
+0001f000 <main>:
+   1f000:	1f 92       	push	r1
+   1f002:	cd b7       	in	r28, 0x3d	; 61
+   1f004:	de b7       	in	r29, 0x3e	; 62
+   1f006:	11 24       	eor	r1, r1
+   1f008:	84 b7       	in	r24, 0x34	; 52
+   1f00a:	14 be       	out	0x34, r1	; 52
+   1f00c:	98 2f       	mov	r25, r24
+   1f00e:	9d 70       	andi	r25, 0x0D	; 13
+   1f010:	09 f0       	breq	.+2      	; 0x1f014 <main+0x14>
+   1f012:	9f d4       	rcall	.+2366   	; 0x1f952 <appStart>
+   1f014:	f0 d3       	rcall	.+2016   	; 0x1f7f6 <CheckFlashImage>
+   1f016:	5e 98       	cbi	0x0b, 6	; 11
+   1f018:	85 e0       	ldi	r24, 0x05	; 5
+   1f01a:	80 93 81 00 	sts	0x0081, r24
+   1f01e:	82 e0       	ldi	r24, 0x02	; 2
+   1f020:	80 93 c0 00 	sts	0x00C0, r24
+   1f024:	88 e1       	ldi	r24, 0x18	; 24
+   1f026:	80 93 c1 00 	sts	0x00C1, r24
+   1f02a:	86 e0       	ldi	r24, 0x06	; 6
+   1f02c:	80 93 c2 00 	sts	0x00C2, r24
+   1f030:	80 e1       	ldi	r24, 0x10	; 16
+   1f032:	80 93 c4 00 	sts	0x00C4, r24
+   1f036:	8e e0       	ldi	r24, 0x0E	; 14
+   1f038:	c9 d3       	rcall	.+1938   	; 0x1f7cc <watchdogConfig>
+   1f03a:	25 9a       	sbi	0x04, 5	; 4
+   1f03c:	26 e0       	ldi	r18, 0x06	; 6
+   1f03e:	80 e3       	ldi	r24, 0x30	; 48
+   1f040:	9c ef       	ldi	r25, 0xFC	; 252
+   1f042:	31 e0       	ldi	r19, 0x01	; 1
+   1f044:	90 93 85 00 	sts	0x0085, r25
+   1f048:	80 93 84 00 	sts	0x0084, r24
+   1f04c:	36 bb       	out	0x16, r19	; 22
+   1f04e:	b0 9b       	sbis	0x16, 0	; 22
+   1f050:	fe cf       	rjmp	.-4      	; 0x1f04e <main+0x4e>
+   1f052:	1d 9a       	sbi	0x03, 5	; 3
+   1f054:	a8 95       	wdr
+   1f056:	21 50       	subi	r18, 0x01	; 1
+   1f058:	a9 f7       	brne	.-22     	; 0x1f044 <main+0x44>
+   1f05a:	00 e0       	ldi	r16, 0x00	; 0
+   1f05c:	10 e0       	ldi	r17, 0x00	; 0
+   1f05e:	aa d3       	rcall	.+1876   	; 0x1f7b4 <getch>
+   1f060:	81 34       	cpi	r24, 0x41	; 65
+   1f062:	79 f4       	brne	.+30     	; 0x1f082 <main+0x82>
+   1f064:	a7 d3       	rcall	.+1870   	; 0x1f7b4 <getch>
+   1f066:	89 83       	std	Y+1, r24	; 0x01
+   1f068:	65 d4       	rcall	.+2250   	; 0x1f934 <verifySpace>
+   1f06a:	89 81       	ldd	r24, Y+1	; 0x01
+   1f06c:	82 38       	cpi	r24, 0x82	; 130
+   1f06e:	11 f4       	brne	.+4      	; 0x1f074 <main+0x74>
+   1f070:	82 e0       	ldi	r24, 0x02	; 2
+   1f072:	05 c0       	rjmp	.+10     	; 0x1f07e <main+0x7e>
+   1f074:	81 38       	cpi	r24, 0x81	; 129
+   1f076:	11 f4       	brne	.+4      	; 0x1f07c <main+0x7c>
+   1f078:	86 e0       	ldi	r24, 0x06	; 6
+   1f07a:	01 c0       	rjmp	.+2      	; 0x1f07e <main+0x7e>
+   1f07c:	83 e0       	ldi	r24, 0x03	; 3
+   1f07e:	93 d3       	rcall	.+1830   	; 0x1f7a6 <putch>
+   1f080:	87 c0       	rjmp	.+270    	; 0x1f190 <main+0x190>
+   1f082:	82 34       	cpi	r24, 0x42	; 66
+   1f084:	11 f4       	brne	.+4      	; 0x1f08a <main+0x8a>
+   1f086:	84 e1       	ldi	r24, 0x14	; 20
+   1f088:	03 c0       	rjmp	.+6      	; 0x1f090 <main+0x90>
+   1f08a:	85 34       	cpi	r24, 0x45	; 69
+   1f08c:	19 f4       	brne	.+6      	; 0x1f094 <main+0x94>
+   1f08e:	85 e0       	ldi	r24, 0x05	; 5
+   1f090:	59 d4       	rcall	.+2226   	; 0x1f944 <getNch>
+   1f092:	7e c0       	rjmp	.+252    	; 0x1f190 <main+0x190>
+   1f094:	85 35       	cpi	r24, 0x55	; 85
+   1f096:	69 f4       	brne	.+26     	; 0x1f0b2 <main+0xb2>
+   1f098:	8d d3       	rcall	.+1818   	; 0x1f7b4 <getch>
+   1f09a:	08 2f       	mov	r16, r24
+   1f09c:	8b d3       	rcall	.+1814   	; 0x1f7b4 <getch>
+   1f09e:	10 e0       	ldi	r17, 0x00	; 0
+   1f0a0:	18 2b       	or	r17, r24
+   1f0a2:	81 2f       	mov	r24, r17
+   1f0a4:	88 1f       	adc	r24, r24
+   1f0a6:	88 27       	eor	r24, r24
+   1f0a8:	88 1f       	adc	r24, r24
+   1f0aa:	8b bf       	out	0x3b, r24	; 59
+   1f0ac:	00 0f       	add	r16, r16
+   1f0ae:	11 1f       	adc	r17, r17
+   1f0b0:	6e c0       	rjmp	.+220    	; 0x1f18e <main+0x18e>
+   1f0b2:	86 35       	cpi	r24, 0x56	; 86
+   1f0b4:	21 f4       	brne	.+8      	; 0x1f0be <main+0xbe>
+   1f0b6:	84 e0       	ldi	r24, 0x04	; 4
+   1f0b8:	45 d4       	rcall	.+2186   	; 0x1f944 <getNch>
+   1f0ba:	80 e0       	ldi	r24, 0x00	; 0
+   1f0bc:	e0 cf       	rjmp	.-64     	; 0x1f07e <main+0x7e>
+   1f0be:	84 36       	cpi	r24, 0x64	; 100
+   1f0c0:	91 f5       	brne	.+100    	; 0x1f126 <main+0x126>
+   1f0c2:	78 d3       	rcall	.+1776   	; 0x1f7b4 <getch>
+   1f0c4:	90 e0       	ldi	r25, 0x00	; 0
+   1f0c6:	98 2e       	mov	r9, r24
+   1f0c8:	88 24       	eor	r8, r8
+   1f0ca:	74 d3       	rcall	.+1768   	; 0x1f7b4 <getch>
+   1f0cc:	88 2a       	or	r8, r24
+   1f0ce:	72 d3       	rcall	.+1764   	; 0x1f7b4 <getch>
+   1f0d0:	b8 2e       	mov	r11, r24
+   1f0d2:	74 01       	movw	r14, r8
+   1f0d4:	c1 2c       	mov	r12, r1
+   1f0d6:	dd 24       	eor	r13, r13
+   1f0d8:	d3 94       	inc	r13
+   1f0da:	6c d3       	rcall	.+1752   	; 0x1f7b4 <getch>
+   1f0dc:	f6 01       	movw	r30, r12
+   1f0de:	81 93       	st	Z+, r24
+   1f0e0:	6f 01       	movw	r12, r30
+   1f0e2:	f1 e0       	ldi	r31, 0x01	; 1
+   1f0e4:	ef 1a       	sub	r14, r31
+   1f0e6:	f1 08       	sbc	r15, r1
+   1f0e8:	e1 14       	cp	r14, r1
+   1f0ea:	f1 04       	cpc	r15, r1
+   1f0ec:	b1 f7       	brne	.-20     	; 0x1f0da <main+0xda>
+   1f0ee:	22 d4       	rcall	.+2116   	; 0x1f934 <verifySpace>
+   1f0f0:	85 e4       	ldi	r24, 0x45	; 69
+   1f0f2:	b8 12       	cpse	r11, r24
+   1f0f4:	14 c0       	rjmp	.+40     	; 0x1f11e <main+0x11e>
+   1f0f6:	64 01       	movw	r12, r8
+   1f0f8:	c0 0e       	add	r12, r16
+   1f0fa:	d1 1e       	adc	r13, r17
+   1f0fc:	78 01       	movw	r14, r16
+   1f0fe:	81 2c       	mov	r8, r1
+   1f100:	99 24       	eor	r9, r9
+   1f102:	93 94       	inc	r9
+   1f104:	ec 14       	cp	r14, r12
+   1f106:	fd 04       	cpc	r15, r13
+   1f108:	09 f4       	brne	.+2      	; 0x1f10c <main+0x10c>
+   1f10a:	42 c0       	rjmp	.+132    	; 0x1f190 <main+0x190>
+   1f10c:	f4 01       	movw	r30, r8
+   1f10e:	61 91       	ld	r22, Z+
+   1f110:	4f 01       	movw	r8, r30
+   1f112:	c7 01       	movw	r24, r14
+   1f114:	2c d4       	rcall	.+2136   	; 0x1f96e <__eewr_byte_m1284p>
+   1f116:	ff ef       	ldi	r31, 0xFF	; 255
+   1f118:	ef 1a       	sub	r14, r31
+   1f11a:	ff 0a       	sbc	r15, r31
+   1f11c:	f3 cf       	rjmp	.-26     	; 0x1f104 <main+0x104>
+   1f11e:	b4 01       	movw	r22, r8
+   1f120:	c8 01       	movw	r24, r16
+   1f122:	39 d0       	rcall	.+114    	; 0x1f196 <writebuffer.part.0.constprop.3>
+   1f124:	35 c0       	rjmp	.+106    	; 0x1f190 <main+0x190>
+   1f126:	84 37       	cpi	r24, 0x74	; 116
+   1f128:	29 f5       	brne	.+74     	; 0x1f174 <main+0x174>
+   1f12a:	44 d3       	rcall	.+1672   	; 0x1f7b4 <getch>
+   1f12c:	90 e0       	ldi	r25, 0x00	; 0
+   1f12e:	d8 2e       	mov	r13, r24
+   1f130:	cc 24       	eor	r12, r12
+   1f132:	40 d3       	rcall	.+1664   	; 0x1f7b4 <getch>
+   1f134:	c8 2a       	or	r12, r24
+   1f136:	3e d3       	rcall	.+1660   	; 0x1f7b4 <getch>
+   1f138:	89 83       	std	Y+1, r24	; 0x01
+   1f13a:	fc d3       	rcall	.+2040   	; 0x1f934 <verifySpace>
+   1f13c:	89 81       	ldd	r24, Y+1	; 0x01
+   1f13e:	78 01       	movw	r14, r16
+   1f140:	85 34       	cpi	r24, 0x45	; 69
+   1f142:	69 f4       	brne	.+26     	; 0x1f15e <main+0x15e>
+   1f144:	c7 01       	movw	r24, r14
+   1f146:	0b d4       	rcall	.+2070   	; 0x1f95e <__eerd_byte_m1284p>
+   1f148:	2e d3       	rcall	.+1628   	; 0x1f7a6 <putch>
+   1f14a:	81 e0       	ldi	r24, 0x01	; 1
+   1f14c:	c8 1a       	sub	r12, r24
+   1f14e:	d1 08       	sbc	r13, r1
+   1f150:	ef ef       	ldi	r30, 0xFF	; 255
+   1f152:	ee 1a       	sub	r14, r30
+   1f154:	fe 0a       	sbc	r15, r30
+   1f156:	c1 14       	cp	r12, r1
+   1f158:	d1 04       	cpc	r13, r1
+   1f15a:	a1 f7       	brne	.-24     	; 0x1f144 <main+0x144>
+   1f15c:	19 c0       	rjmp	.+50     	; 0x1f190 <main+0x190>
+   1f15e:	f7 01       	movw	r30, r14
+   1f160:	87 91       	elpm	r24, Z+
+   1f162:	7f 01       	movw	r14, r30
+   1f164:	20 d3       	rcall	.+1600   	; 0x1f7a6 <putch>
+   1f166:	f1 e0       	ldi	r31, 0x01	; 1
+   1f168:	cf 1a       	sub	r12, r31
+   1f16a:	d1 08       	sbc	r13, r1
+   1f16c:	c1 14       	cp	r12, r1
+   1f16e:	d1 04       	cpc	r13, r1
+   1f170:	b1 f7       	brne	.-20     	; 0x1f15e <main+0x15e>
+   1f172:	0e c0       	rjmp	.+28     	; 0x1f190 <main+0x190>
+   1f174:	85 37       	cpi	r24, 0x75	; 117
+   1f176:	39 f4       	brne	.+14     	; 0x1f186 <main+0x186>
+   1f178:	dd d3       	rcall	.+1978   	; 0x1f934 <verifySpace>
+   1f17a:	8e e1       	ldi	r24, 0x1E	; 30
+   1f17c:	14 d3       	rcall	.+1576   	; 0x1f7a6 <putch>
+   1f17e:	87 e9       	ldi	r24, 0x97	; 151
+   1f180:	12 d3       	rcall	.+1572   	; 0x1f7a6 <putch>
+   1f182:	85 e0       	ldi	r24, 0x05	; 5
+   1f184:	7c cf       	rjmp	.-264    	; 0x1f07e <main+0x7e>
+   1f186:	81 35       	cpi	r24, 0x51	; 81
+   1f188:	11 f4       	brne	.+4      	; 0x1f18e <main+0x18e>
+   1f18a:	88 e0       	ldi	r24, 0x08	; 8
+   1f18c:	1f d3       	rcall	.+1598   	; 0x1f7cc <watchdogConfig>
+   1f18e:	d2 d3       	rcall	.+1956   	; 0x1f934 <verifySpace>
+   1f190:	80 e1       	ldi	r24, 0x10	; 16
+   1f192:	09 d3       	rcall	.+1554   	; 0x1f7a6 <putch>
+   1f194:	64 cf       	rjmp	.-312    	; 0x1f05e <main+0x5e>
+
+0001f196 <writebuffer.part.0.constprop.3>:
+}
+
+/*
+ * void writebuffer(memtype, buffer, address, length)
+ */
+static inline void writebuffer(int8_t memtype, uint8_t *mybuff,
+   1f196:	cf 93       	push	r28
+         * Start the page erase and wait for it to finish.  There
+         * used to be code to do this while receiving the data over
+         * the serial link, but the performance improvement was slight,
+         * and we needed the space back.
+         */
+        __boot_page_erase_short((uint16_t)(void*)address);
+   1f198:	23 e0       	ldi	r18, 0x03	; 3
+   1f19a:	fc 01       	movw	r30, r24
+   1f19c:	27 bf       	out	0x37, r18	; 55
+   1f19e:	e8 95       	spm
+        boot_spm_busy_wait();
+   1f1a0:	07 b6       	in	r0, 0x37	; 55
+   1f1a2:	00 fc       	sbrc	r0, 0
+   1f1a4:	fd cf       	rjmp	.-6      	; 0x1f1a0 <writebuffer.part.0.constprop.3+0xa>
+   1f1a6:	20 e0       	ldi	r18, 0x00	; 0
+   1f1a8:	30 e0       	ldi	r19, 0x00	; 0
+         */
+        do {
+          uint16_t a;
+          a = *bufPtr++;
+          a |= (*bufPtr++) << 8;
+          __boot_page_fill_short((uint16_t)(void*)addrPtr,a);
+   1f1aa:	c1 e0       	ldi	r28, 0x01	; 1
+   1f1ac:	f9 01       	movw	r30, r18
+   1f1ae:	f3 95       	inc	r31
+        /*
+         * Copy data from the buffer into the flash write buffer.
+         */
+        do {
+          uint16_t a;
+          a = *bufPtr++;
+   1f1b0:	40 81       	ld	r20, Z
+   1f1b2:	f9 01       	movw	r30, r18
+   1f1b4:	e8 0f       	add	r30, r24
+   1f1b6:	f9 1f       	adc	r31, r25
+   1f1b8:	d9 01       	movw	r26, r18
+   1f1ba:	af 5f       	subi	r26, 0xFF	; 255
+   1f1bc:	be 4f       	sbci	r27, 0xFE	; 254
+          a |= (*bufPtr++) << 8;
+   1f1be:	ac 91       	ld	r26, X
+   1f1c0:	50 e0       	ldi	r21, 0x00	; 0
+   1f1c2:	5a 2b       	or	r21, r26
+          __boot_page_fill_short((uint16_t)(void*)addrPtr,a);
+   1f1c4:	0a 01       	movw	r0, r20
+   1f1c6:	c7 bf       	out	0x37, r28	; 55
+   1f1c8:	e8 95       	spm
+   1f1ca:	11 24       	eor	r1, r1
+   1f1cc:	2e 5f       	subi	r18, 0xFE	; 254
+   1f1ce:	3f 4f       	sbci	r19, 0xFF	; 255
+          addrPtr += 2;
+        } while (len -= 2);
+   1f1d0:	62 17       	cp	r22, r18
+   1f1d2:	73 07       	cpc	r23, r19
+   1f1d4:	59 f7       	brne	.-42     	; 0x1f1ac <writebuffer.part.0.constprop.3+0x16>
+
+        /*
+         * Actually Write the buffer to flash (and wait for it to finish.)
+         */
+        __boot_page_write_short((uint16_t)(void*)address);
+   1f1d6:	25 e0       	ldi	r18, 0x05	; 5
+   1f1d8:	fc 01       	movw	r30, r24
+   1f1da:	27 bf       	out	0x37, r18	; 55
+   1f1dc:	e8 95       	spm
+        boot_spm_busy_wait();
+   1f1de:	07 b6       	in	r0, 0x37	; 55
+   1f1e0:	00 fc       	sbrc	r0, 0
+   1f1e2:	fd cf       	rjmp	.-6      	; 0x1f1de <writebuffer.part.0.constprop.3+0x48>
+  #if defined(RWWSRE)
+        // Reenable read access to flash
+        boot_rww_enable();
+   1f1e4:	81 e1       	ldi	r24, 0x11	; 17
+   1f1e6:	87 bf       	out	0x37, r24	; 55
+   1f1e8:	e8 95       	spm
+  #endif
+    } // default block
+    break;
+  } // switch
+}
+   1f1ea:	cf 91       	pop	r28
+   1f1ec:	08 95       	ret
+
+0001f1ee <SPI_transfer>:
+#define WILDFIRE_LED_PORT         PORTD
+#define WILDFIRE_LED_DDR          DDRD
+#define WILDFIRE_LED              6
+
+uint8_t SPI_transfer(uint8_t _data) {
+  SPDR = _data;
+   1f1ee:	8e bd       	out	0x2e, r24	; 46
+  while (!(SPSR & _BV(SPIF)));
+   1f1f0:	0d b4       	in	r0, 0x2d	; 45
+   1f1f2:	07 fe       	sbrs	r0, 7
+   1f1f4:	fd cf       	rjmp	.-6      	; 0x1f1f0 <SPI_transfer+0x2>
+  return SPDR;
+   1f1f6:	8e b5       	in	r24, 0x2e	; 46
+}
+   1f1f8:	08 95       	ret
+
+0001f1fa <FLASH_busy>:
+
+uint8_t FLASH_busy()
+{
+  FLASH_SELECT;
+   1f1fa:	42 98       	cbi	0x08, 2	; 8
+  SPI_transfer(SPIFLASH_STATUSREAD);
+   1f1fc:	85 e0       	ldi	r24, 0x05	; 5
+   1f1fe:	f7 df       	rcall	.-18     	; 0x1f1ee <SPI_transfer>
+   1f200:	80 e0       	ldi	r24, 0x00	; 0
+  uint8_t status = SPI_transfer(0);
+   1f202:	f5 df       	rcall	.-22     	; 0x1f1ee <SPI_transfer>
+   1f204:	42 9a       	sbi	0x08, 2	; 8
+   1f206:	81 70       	andi	r24, 0x01	; 1
+  FLASH_UNSELECT;
+   1f208:	08 95       	ret
+
+0001f20a <FLASH_command>:
+  return status & 1;
+}
+
+void FLASH_command(uint8_t cmd, uint8_t isWrite){
+   1f20a:	cf 93       	push	r28
+   1f20c:	c8 2f       	mov	r28, r24
+  if (isWrite)
+   1f20e:	66 23       	and	r22, r22
+   1f210:	21 f0       	breq	.+8      	; 0x1f21a <FLASH_command+0x10>
+  {
+    FLASH_command(SPIFLASH_WRITEENABLE, 0); // Write Enable
+   1f212:	60 e0       	ldi	r22, 0x00	; 0
+   1f214:	86 e0       	ldi	r24, 0x06	; 6
+   1f216:	f9 df       	rcall	.-14     	; 0x1f20a <FLASH_command>
+   1f218:	42 9a       	sbi	0x08, 2	; 8
+    FLASH_UNSELECT;
+   1f21a:	ef df       	rcall	.-34     	; 0x1f1fa <FLASH_busy>
+  }
+  while(FLASH_busy()); //wait for chip to become available
+   1f21c:	81 11       	cpse	r24, r1
+   1f21e:	fd cf       	rjmp	.-6      	; 0x1f21a <FLASH_command+0x10>
+   1f220:	42 98       	cbi	0x08, 2	; 8
+   1f222:	8c 2f       	mov	r24, r28
+  FLASH_SELECT;
+   1f224:	cf 91       	pop	r28
+  SPI_transfer(cmd);
+   1f226:	e3 cf       	rjmp	.-58     	; 0x1f1ee <SPI_transfer>
+
+0001f228 <FLASH_readByte>:
+}
+
+uint8_t FLASH_readByte(uint32_t addr) {
+   1f228:	cf 92       	push	r12
+   1f22a:	df 92       	push	r13
+   1f22c:	ef 92       	push	r14
+   1f22e:	ff 92       	push	r15
+   1f230:	6b 01       	movw	r12, r22
+   1f232:	7c 01       	movw	r14, r24
+  FLASH_command(SPIFLASH_ARRAYREADLOWFREQ, 0);
+   1f234:	60 e0       	ldi	r22, 0x00	; 0
+   1f236:	83 e0       	ldi	r24, 0x03	; 3
+   1f238:	e8 df       	rcall	.-48     	; 0x1f20a <FLASH_command>
+   1f23a:	8e 2d       	mov	r24, r14
+  SPI_transfer(addr >> 16);
+   1f23c:	d8 df       	rcall	.-80     	; 0x1f1ee <SPI_transfer>
+   1f23e:	8d 2d       	mov	r24, r13
+   1f240:	d6 df       	rcall	.-84     	; 0x1f1ee <SPI_transfer>
+  SPI_transfer(addr >> 8);
+   1f242:	8c 2d       	mov	r24, r12
+   1f244:	d4 df       	rcall	.-88     	; 0x1f1ee <SPI_transfer>
+   1f246:	80 e0       	ldi	r24, 0x00	; 0
+  SPI_transfer(addr);
+   1f248:	d2 df       	rcall	.-92     	; 0x1f1ee <SPI_transfer>
+   1f24a:	42 9a       	sbi	0x08, 2	; 8
+   1f24c:	ff 90       	pop	r15
+  //SPI.transfer(0); //"dont care", needed with SPIFLASH_ARRAYREAD command only
+  uint8_t result = SPI_transfer(0);
+   1f24e:	ef 90       	pop	r14
+   1f250:	df 90       	pop	r13
+   1f252:	cf 90       	pop	r12
+  FLASH_UNSELECT;
+   1f254:	08 95       	ret
+
+0001f256 <add_line_to_page_buffer>:
+}
+
+void add_line_to_page_buffer(uint8_t * data_buffer, uint8_t num_bytes, uint16_t page_offset_address){
+  uint8_t ii = 0; 
+  uint16_t effective_page_address = page_offset_address;
+  for(ii = 0; ii < num_bytes; ii++){
+   1f256:	fc 01       	movw	r30, r24
+   1f258:	2e 2f       	mov	r18, r30
+   1f25a:	28 1b       	sub	r18, r24
+   1f25c:	26 17       	cp	r18, r22
+   1f25e:	60 f4       	brcc	.+24     	; 0x1f278 <add_line_to_page_buffer+0x22>
+    if(effective_page_address < SPM_PAGESIZE){
+   1f260:	4f 3f       	cpi	r20, 0xFF	; 255
+   1f262:	51 05       	cpc	r21, r1
+   1f264:	09 f0       	breq	.+2      	; 0x1f268 <add_line_to_page_buffer+0x12>
+   1f266:	30 f4       	brcc	.+12     	; 0x1f274 <add_line_to_page_buffer+0x1e>
+      buff[effective_page_address++] = data_buffer[ii];
+   1f268:	20 81       	ld	r18, Z
+   1f26a:	da 01       	movw	r26, r20
+   1f26c:	b3 95       	inc	r27
+   1f26e:	2c 93       	st	X, r18
+   1f270:	4f 5f       	subi	r20, 0xFF	; 255
+   1f272:	5f 4f       	sbci	r21, 0xFF	; 255
+   1f274:	31 96       	adiw	r30, 0x01	; 1
+   1f276:	f0 cf       	rjmp	.-32     	; 0x1f258 <add_line_to_page_buffer+0x2>
+    }    
+  }
+}
+   1f278:	08 95       	ret
+
+0001f27a <flash_wildfire_led>:
+
+void flash_wildfire_led(uint8_t num_blinks){
+  uint8_t ii = 0;
+  for(ii = 0; ii < num_blinks; ii++){
+   1f27a:	90 e0       	ldi	r25, 0x00	; 0
+    WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
+   1f27c:	30 e4       	ldi	r19, 0x40	; 64
+  }
+}
+
+void flash_wildfire_led(uint8_t num_blinks){
+  uint8_t ii = 0;
+  for(ii = 0; ii < num_blinks; ii++){
+   1f27e:	98 17       	cp	r25, r24
+   1f280:	d1 f0       	breq	.+52     	; 0x1f2b6 <flash_wildfire_led+0x3c>
+    WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
+   1f282:	2b b1       	in	r18, 0x0b	; 11
+   1f284:	23 27       	eor	r18, r19
+   1f286:	2b b9       	out	0x0b, r18	; 11
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+   1f288:	2f ef       	ldi	r18, 0xFF	; 255
+   1f28a:	41 ee       	ldi	r20, 0xE1	; 225
+   1f28c:	54 e0       	ldi	r21, 0x04	; 4
+   1f28e:	21 50       	subi	r18, 0x01	; 1
+   1f290:	40 40       	sbci	r20, 0x00	; 0
+   1f292:	50 40       	sbci	r21, 0x00	; 0
+   1f294:	e1 f7       	brne	.-8      	; 0x1f28e <flash_wildfire_led+0x14>
+   1f296:	00 c0       	rjmp	.+0      	; 0x1f298 <flash_wildfire_led+0x1e>
+   1f298:	00 00       	nop
+    _delay_ms(100);    
+    WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
+   1f29a:	2b b1       	in	r18, 0x0b	; 11
+   1f29c:	23 27       	eor	r18, r19
+   1f29e:	2b b9       	out	0x0b, r18	; 11
+   1f2a0:	2f ef       	ldi	r18, 0xFF	; 255
+   1f2a2:	41 ee       	ldi	r20, 0xE1	; 225
+   1f2a4:	54 e0       	ldi	r21, 0x04	; 4
+   1f2a6:	21 50       	subi	r18, 0x01	; 1
+   1f2a8:	40 40       	sbci	r20, 0x00	; 0
+   1f2aa:	50 40       	sbci	r21, 0x00	; 0
+   1f2ac:	e1 f7       	brne	.-8      	; 0x1f2a6 <flash_wildfire_led+0x2c>
+   1f2ae:	00 c0       	rjmp	.+0      	; 0x1f2b0 <flash_wildfire_led+0x36>
+   1f2b0:	00 00       	nop
+  }
+}
+
+void flash_wildfire_led(uint8_t num_blinks){
+  uint8_t ii = 0;
+  for(ii = 0; ii < num_blinks; ii++){
+   1f2b2:	9f 5f       	subi	r25, 0xFF	; 255
+   1f2b4:	e4 cf       	rjmp	.-56     	; 0x1f27e <flash_wildfire_led+0x4>
+    WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
+    _delay_ms(100);    
+    WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
+    _delay_ms(100);     
+  }
+}
+   1f2b6:	08 95       	ret
+
+0001f2b8 <validate_image>:
+ *  (3) The number of data bytes is even (AVR instructions are 16-bits wide)
+ *  
+ *  if also_burn_flash != 0, then also burns the data progressively
+ *
+ */
+uint8_t validate_image(uint32_t hex_file_size, uint16_t expected_crc16_checksum, uint8_t also_burn_flash){  
+   1f2b8:	2f 92       	push	r2
+   1f2ba:	3f 92       	push	r3
+   1f2bc:	4f 92       	push	r4
+   1f2be:	5f 92       	push	r5
+   1f2c0:	6f 92       	push	r6
+   1f2c2:	7f 92       	push	r7
+   1f2c4:	8f 92       	push	r8
+   1f2c6:	9f 92       	push	r9
+   1f2c8:	af 92       	push	r10
+   1f2ca:	bf 92       	push	r11
+   1f2cc:	cf 92       	push	r12
+   1f2ce:	df 92       	push	r13
+   1f2d0:	ef 92       	push	r14
+   1f2d2:	ff 92       	push	r15
+   1f2d4:	0f 93       	push	r16
+   1f2d6:	1f 93       	push	r17
+   1f2d8:	cf 93       	push	r28
+   1f2da:	df 93       	push	r29
+   1f2dc:	cd b7       	in	r28, 0x3d	; 61
+   1f2de:	de b7       	in	r29, 0x3e	; 62
+   1f2e0:	c8 54       	subi	r28, 0x48	; 72
+   1f2e2:	d1 09       	sbc	r29, r1
+   1f2e4:	0f b6       	in	r0, 0x3f	; 63
+   1f2e6:	f8 94       	cli
+   1f2e8:	de bf       	out	0x3e, r29	; 62
+   1f2ea:	0f be       	out	0x3f, r0	; 63
+   1f2ec:	cd bf       	out	0x3d, r28	; 61
+   1f2ee:	24 96       	adiw	r28, 0x04	; 4
+   1f2f0:	6c af       	std	Y+60, r22	; 0x3c
+   1f2f2:	7d af       	std	Y+61, r23	; 0x3d
+   1f2f4:	8e af       	std	Y+62, r24	; 0x3e
+   1f2f6:	9f af       	std	Y+63, r25	; 0x3f
+   1f2f8:	24 97       	sbiw	r28, 0x04	; 4
+   1f2fa:	26 96       	adiw	r28, 0x06	; 6
+   1f2fc:	5f af       	std	Y+63, r21	; 0x3f
+   1f2fe:	4e af       	std	Y+62, r20	; 0x3e
+   1f300:	26 97       	sbiw	r28, 0x06	; 6
+   1f302:	27 96       	adiw	r28, 0x07	; 7
+   1f304:	2f af       	std	Y+63, r18	; 0x3f
+   1f306:	27 97       	sbiw	r28, 0x07	; 7
+  uint16_t crc = 0;
+  uint8_t line_buffer[32] = {0}; // these are the parsed values from this line
+   1f308:	9e 01       	movw	r18, r28
+   1f30a:	2f 5f       	subi	r18, 0xFF	; 255
+   1f30c:	3f 4f       	sbci	r19, 0xFF	; 255
+   1f30e:	3a a3       	std	Y+34, r19	; 0x22
+   1f310:	29 a3       	std	Y+33, r18	; 0x21
+   1f312:	80 e2       	ldi	r24, 0x20	; 32
+   1f314:	d9 01       	movw	r26, r18
+   1f316:	1d 92       	st	X+, r1
+   1f318:	8a 95       	dec	r24
+   1f31a:	e9 f7       	brne	.-6      	; 0x1f316 <validate_image+0x5e>
+  uint16_t flash_start_address_of_line_within_page = 0;   
+  uint8_t calculated_checksum = 0;
+  uint8_t burned_flash = 0; 
+  char dataByte = 0;
+  
+  for(spiflash_address = 0; spiflash_address < hex_file_size; spiflash_address++){
+   1f31c:	19 a6       	std	Y+41, r1	; 0x29
+   1f31e:	1a a6       	std	Y+42, r1	; 0x2a
+   1f320:	1b a6       	std	Y+43, r1	; 0x2b
+   1f322:	1c a6       	std	Y+44, r1	; 0x2c
+  #define VALIDATE_STATE_ODD_HEX_CHAR        2
+  #define VALIDATE_STATE_EXPECT_NEWLINE      3
+  
+  uint8_t state = VALIDATE_STATE_EXPECT_COLON;
+  uint32_t extended_address = 0;
+  uint32_t num_nonempty_data_records_processed = 0;
+   1f324:	18 ae       	std	Y+56, r1	; 0x38
+   1f326:	19 ae       	std	Y+57, r1	; 0x39
+   1f328:	1a ae       	std	Y+58, r1	; 0x3a
+   1f32a:	1b ae       	std	Y+59, r1	; 0x3b
+  #define VALIDATE_STATE_EVEN_HEX_CHAR       1
+  #define VALIDATE_STATE_ODD_HEX_CHAR        2
+  #define VALIDATE_STATE_EXPECT_NEWLINE      3
+  
+  uint8_t state = VALIDATE_STATE_EXPECT_COLON;
+  uint32_t extended_address = 0;
+   1f32c:	41 2c       	mov	r4, r1
+   1f32e:	51 2c       	mov	r5, r1
+   1f330:	32 01       	movw	r6, r4
+  #define VALIDATE_STATE_EXPECT_COLON        0
+  #define VALIDATE_STATE_EVEN_HEX_CHAR       1
+  #define VALIDATE_STATE_ODD_HEX_CHAR        2
+  #define VALIDATE_STATE_EXPECT_NEWLINE      3
+  
+  uint8_t state = VALIDATE_STATE_EXPECT_COLON;
+   1f332:	10 e0       	ldi	r17, 0x00	; 0
+  uint8_t line_length = 0; 
+  uint8_t record_type = 0;
+  uint16_t line_address = 0;
+  uint8_t ii = 0;
+  int32_t current_flash_page = -1;
+  int32_t last_flash_page_written = -1;
+   1f334:	2f ef       	ldi	r18, 0xFF	; 255
+   1f336:	3f ef       	ldi	r19, 0xFF	; 255
+   1f338:	a9 01       	movw	r20, r18
+   1f33a:	2d a3       	std	Y+37, r18	; 0x25
+   1f33c:	3e a3       	std	Y+38, r19	; 0x26
+   1f33e:	4f a3       	std	Y+39, r20	; 0x27
+   1f340:	58 a7       	std	Y+40, r21	; 0x28
+  uint8_t num_data_bytes = 0;
+  uint8_t line_length = 0; 
+  uint8_t record_type = 0;
+  uint16_t line_address = 0;
+  uint8_t ii = 0;
+  int32_t current_flash_page = -1;
+   1f342:	cc 24       	eor	r12, r12
+   1f344:	ca 94       	dec	r12
+   1f346:	dc 2c       	mov	r13, r12
+   1f348:	76 01       	movw	r14, r12
+  uint8_t line_buffer[32] = {0}; // these are the parsed values from this line
+                                 // converted into integer equivalents in pairs
+                                 // for every pair between the colon and '\r\n'
+  uint8_t *pData = &(line_buffer[4]); // data always starts with 5th parsed byte
+  uint8_t line_buffer_idx = 0;
+  uint8_t even_char = 0;
+   1f34a:	1b aa       	std	Y+51, r1	; 0x33
+  uint16_t crc = 0;
+  uint8_t line_buffer[32] = {0}; // these are the parsed values from this line
+                                 // converted into integer equivalents in pairs
+                                 // for every pair between the colon and '\r\n'
+  uint8_t *pData = &(line_buffer[4]); // data always starts with 5th parsed byte
+  uint8_t line_buffer_idx = 0;
+   1f34c:	21 2c       	mov	r2, r1
+ *  
+ *  if also_burn_flash != 0, then also burns the data progressively
+ *
+ */
+uint8_t validate_image(uint32_t hex_file_size, uint16_t expected_crc16_checksum, uint8_t also_burn_flash){  
+  uint16_t crc = 0;
+   1f34e:	1e a6       	std	Y+46, r1	; 0x2e
+   1f350:	1d a6       	std	Y+45, r1	; 0x2d
+      }    
+      
+      // interpret the newly acquired pair as a byte value 
+      // and store it in line_buffer for the sake of local checksum-ing later
+      if(line_buffer_idx < 32){ // guard against buffer overflow
+        line_buffer[line_buffer_idx++] = (even_char << 4) + odd_char;          
+   1f352:	9e 01       	movw	r18, r28
+   1f354:	2f 5f       	subi	r18, 0xFF	; 255
+   1f356:	3f 4f       	sbci	r19, 0xFF	; 255
+   1f358:	3c a3       	std	Y+36, r19	; 0x24
+   1f35a:	2b a3       	std	Y+35, r18	; 0x23
+  uint16_t flash_start_address_of_line_within_page = 0;   
+  uint8_t calculated_checksum = 0;
+  uint8_t burned_flash = 0; 
+  char dataByte = 0;
+  
+  for(spiflash_address = 0; spiflash_address < hex_file_size; spiflash_address++){
+   1f35c:	29 a5       	ldd	r18, Y+41	; 0x29
+   1f35e:	3a a5       	ldd	r19, Y+42	; 0x2a
+   1f360:	4b a5       	ldd	r20, Y+43	; 0x2b
+   1f362:	5c a5       	ldd	r21, Y+44	; 0x2c
+   1f364:	24 96       	adiw	r28, 0x04	; 4
+   1f366:	6c ad       	ldd	r22, Y+60	; 0x3c
+   1f368:	7d ad       	ldd	r23, Y+61	; 0x3d
+   1f36a:	8e ad       	ldd	r24, Y+62	; 0x3e
+   1f36c:	9f ad       	ldd	r25, Y+63	; 0x3f
+   1f36e:	24 97       	sbiw	r28, 0x04	; 4
+   1f370:	26 17       	cp	r18, r22
+   1f372:	37 07       	cpc	r19, r23
+   1f374:	48 07       	cpc	r20, r24
+   1f376:	59 07       	cpc	r21, r25
+   1f378:	09 f4       	brne	.+2      	; 0x1f37c <validate_image+0xc4>
+   1f37a:	f0 c1       	rjmp	.+992    	; 0x1f75c <validate_image+0x4a4>
+    dataByte = FLASH_readByte(spiflash_address);
+   1f37c:	69 a5       	ldd	r22, Y+41	; 0x29
+   1f37e:	7a a5       	ldd	r23, Y+42	; 0x2a
+   1f380:	8b a5       	ldd	r24, Y+43	; 0x2b
+   1f382:	9c a5       	ldd	r25, Y+44	; 0x2c
+   1f384:	51 df       	rcall	.-350    	; 0x1f228 <FLASH_readByte>
+   1f386:	2d a5       	ldd	r18, Y+45	; 0x2d
+_crc16_update(uint16_t __crc, uint8_t __data)
+{
+	uint8_t __tmp;
+	uint16_t __ret;
+
+	__asm__ __volatile__ (
+   1f388:	3e a5       	ldd	r19, Y+46	; 0x2e
+   1f38a:	28 27       	eor	r18, r24
+   1f38c:	92 2f       	mov	r25, r18
+   1f38e:	92 95       	swap	r25
+   1f390:	92 27       	eor	r25, r18
+   1f392:	09 2e       	mov	r0, r25
+   1f394:	96 95       	lsr	r25
+   1f396:	96 95       	lsr	r25
+   1f398:	90 25       	eor	r25, r0
+   1f39a:	09 2e       	mov	r0, r25
+   1f39c:	96 95       	lsr	r25
+   1f39e:	90 25       	eor	r25, r0
+   1f3a0:	97 70       	andi	r25, 0x07	; 7
+   1f3a2:	02 2e       	mov	r0, r18
+   1f3a4:	23 2f       	mov	r18, r19
+   1f3a6:	96 95       	lsr	r25
+   1f3a8:	07 94       	ror	r0
+   1f3aa:	97 95       	ror	r25
+   1f3ac:	30 2d       	mov	r19, r0
+   1f3ae:	29 27       	eor	r18, r25
+   1f3b0:	06 94       	lsr	r0
+   1f3b2:	97 95       	ror	r25
+   1f3b4:	30 25       	eor	r19, r0
+   1f3b6:	29 27       	eor	r18, r25
+   1f3b8:	3e a7       	std	Y+46, r19	; 0x2e
+   1f3ba:	2d a7       	std	Y+45, r18	; 0x2d
+   1f3bc:	49 a5       	ldd	r20, Y+41	; 0x29
+    crc = _crc16_update(crc, dataByte); // the crc is over the ascii file text
+    
+    // while validating , blink the LED on and off every so often to indicte progress
+    if((spiflash_address & 0x1FFF) == 0) WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
+   1f3be:	5a a5       	ldd	r21, Y+42	; 0x2a
+   1f3c0:	6b a5       	ldd	r22, Y+43	; 0x2b
+   1f3c2:	7c a5       	ldd	r23, Y+44	; 0x2c
+   1f3c4:	5f 71       	andi	r21, 0x1F	; 31
+   1f3c6:	66 27       	eor	r22, r22
+   1f3c8:	77 27       	eor	r23, r23
+   1f3ca:	45 2b       	or	r20, r21
+   1f3cc:	46 2b       	or	r20, r22
+   1f3ce:	47 2b       	or	r20, r23
+   1f3d0:	21 f4       	brne	.+8      	; 0x1f3da <validate_image+0x122>
+   1f3d2:	9b b1       	in	r25, 0x0b	; 11
+   1f3d4:	30 e4       	ldi	r19, 0x40	; 64
+   1f3d6:	93 27       	eor	r25, r19
+   1f3d8:	9b b9       	out	0x0b, r25	; 11
+   1f3da:	11 30       	cpi	r17, 0x01	; 1
+    
+    switch(state){
+   1f3dc:	09 f4       	brne	.+2      	; 0x1f3e0 <validate_image+0x128>
+   1f3de:	84 c1       	rjmp	.+776    	; 0x1f6e8 <validate_image+0x430>
+   1f3e0:	30 f0       	brcs	.+12     	; 0x1f3ee <validate_image+0x136>
+   1f3e2:	12 30       	cpi	r17, 0x02	; 2
+   1f3e4:	09 f4       	brne	.+2      	; 0x1f3e8 <validate_image+0x130>
+   1f3e6:	8f c1       	rjmp	.+798    	; 0x1f706 <validate_image+0x44e>
+   1f3e8:	13 30       	cpi	r17, 0x03	; 3
+   1f3ea:	39 f0       	breq	.+14     	; 0x1f3fa <validate_image+0x142>
+   1f3ec:	c1 c1       	rjmp	.+898    	; 0x1f770 <validate_image+0x4b8>
+   1f3ee:	8a 33       	cpi	r24, 0x3A	; 58
+    case VALIDATE_STATE_EXPECT_COLON:
+      if(dataByte != ':') return 0;
+   1f3f0:	09 f0       	breq	.+2      	; 0x1f3f4 <validate_image+0x13c>
+   1f3f2:	be c1       	rjmp	.+892    	; 0x1f770 <validate_image+0x4b8>
+   1f3f4:	11 e0       	ldi	r17, 0x01	; 1
+      line_buffer_idx = 0;
+      line_length = 0;
+      state = VALIDATE_STATE_EVEN_HEX_CHAR;
+   1f3f6:	21 2c       	mov	r2, r1
+    if((spiflash_address & 0x1FFF) == 0) WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
+    
+    switch(state){
+    case VALIDATE_STATE_EXPECT_COLON:
+      if(dataByte != ':') return 0;
+      line_buffer_idx = 0;
+   1f3f8:	a4 c1       	rjmp	.+840    	; 0x1f742 <validate_image+0x48a>
+   1f3fa:	8a 30       	cpi	r24, 0x0A	; 10
+      line_length = 0;
+      state = VALIDATE_STATE_EVEN_HEX_CHAR;
+      break;
+    case VALIDATE_STATE_EXPECT_NEWLINE:
+      if(dataByte != '\n') return 0;
+   1f3fc:	09 f0       	breq	.+2      	; 0x1f400 <validate_image+0x148>
+   1f3fe:	b8 c1       	rjmp	.+880    	; 0x1f770 <validate_image+0x4b8>
+   1f400:	39 80       	ldd	r3, Y+1	; 0x01
+      state = VALIDATE_STATE_EXPECT_COLON;
+      
+      num_data_bytes = line_buffer[0];
+   1f402:	85 e0       	ldi	r24, 0x05	; 5
+      
+      // analyze the line for semantic validation problems
+      line_length = num_data_bytes + 5; // one line-length byte
+   1f404:	83 0d       	add	r24, r3
+   1f406:	28 12       	cpse	r2, r24
+                                        // one record type byte
+                                        // one checksum byte
+                                        // #data_bytes         
+      
+      // the number of stored bytes should equal line_length
+      if(line_buffer_idx != line_length) return 0;
+   1f408:	b3 c1       	rjmp	.+870    	; 0x1f770 <validate_image+0x4b8>
+   1f40a:	8a 81       	ldd	r24, Y+2	; 0x02
+      
+      line_address = line_buffer[1];
+   1f40c:	90 e0       	ldi	r25, 0x00	; 0
+   1f40e:	98 2f       	mov	r25, r24
+      line_address <<= 8;
+   1f410:	88 27       	eor	r24, r24
+   1f412:	2b 81       	ldd	r18, Y+3	; 0x03
+      line_address |= line_buffer[2];        
+   1f414:	82 2b       	or	r24, r18
+   1f416:	2c 81       	ldd	r18, Y+4	; 0x04
+      record_type  = line_buffer[3];
+   1f418:	fe 01       	movw	r30, r28
+      
+      calculated_checksum = 0;
+      // calculate the checksum of the line bytes, they should sum to zero
+      for(ii = 0; ii < line_buffer_idx; ii++){
+   1f41a:	31 96       	adiw	r30, 0x01	; 1
+   1f41c:	30 e0       	ldi	r19, 0x00	; 0
+      line_address = line_buffer[1];
+      line_address <<= 8;
+      line_address |= line_buffer[2];        
+      record_type  = line_buffer[3];
+      
+      calculated_checksum = 0;
+   1f41e:	4e 2f       	mov	r20, r30
+   1f420:	5b a1       	ldd	r21, Y+35	; 0x23
+   1f422:	45 1b       	sub	r20, r21
+   1f424:	42 15       	cp	r20, r2
+      // calculate the checksum of the line bytes, they should sum to zero
+      for(ii = 0; ii < line_buffer_idx; ii++){
+   1f426:	18 f4       	brcc	.+6      	; 0x1f42e <validate_image+0x176>
+   1f428:	41 91       	ld	r20, Z+
+        calculated_checksum += line_buffer[ii];
+   1f42a:	34 0f       	add	r19, r20
+   1f42c:	f8 cf       	rjmp	.-16     	; 0x1f41e <validate_image+0x166>
+   1f42e:	31 11       	cpse	r19, r1
+      }        
+      
+      if(calculated_checksum != 0) return 0; // by definition
+   1f430:	9f c1       	rjmp	.+830    	; 0x1f770 <validate_image+0x4b8>
+   1f432:	21 30       	cpi	r18, 0x01	; 1
+
+      flash_start_address_of_line = 0;
+      flash_end_address_of_line = 0;     
+      flash_start_address_of_line_within_page = 0;
+           
+      switch(record_type){
+   1f434:	09 f4       	brne	.+2      	; 0x1f438 <validate_image+0x180>
+   1f436:	01 c1       	rjmp	.+514    	; 0x1f63a <validate_image+0x382>
+   1f438:	38 f0       	brcs	.+14     	; 0x1f448 <validate_image+0x190>
+   1f43a:	22 30       	cpi	r18, 0x02	; 2
+   1f43c:	09 f4       	brne	.+2      	; 0x1f440 <validate_image+0x188>
+   1f43e:	2d c1       	rjmp	.+602    	; 0x1f69a <validate_image+0x3e2>
+   1f440:	24 30       	cpi	r18, 0x04	; 4
+   1f442:	09 f4       	brne	.+2      	; 0x1f446 <validate_image+0x18e>
+   1f444:	3f c1       	rjmp	.+638    	; 0x1f6c4 <validate_image+0x40c>
+   1f446:	94 c1       	rjmp	.+808    	; 0x1f770 <validate_image+0x4b8>
+   1f448:	a3 01       	movw	r20, r6
+      case 0:  // data record
+        // flash_start_address_of_line drives all the rest of the calculations
+        flash_start_address_of_line = extended_address + line_address;                
+   1f44a:	92 01       	movw	r18, r4
+   1f44c:	28 0f       	add	r18, r24
+   1f44e:	39 1f       	adc	r19, r25
+   1f450:	41 1d       	adc	r20, r1
+   1f452:	51 1d       	adc	r21, r1
+   1f454:	da 01       	movw	r26, r20
+   1f456:	c9 01       	movw	r24, r18
+   1f458:	03 2d       	mov	r16, r3
+        flash_end_address_of_line = flash_start_address_of_line + line_buffer[0] - 1;
+   1f45a:	10 e0       	ldi	r17, 0x00	; 0
+   1f45c:	20 e0       	ldi	r18, 0x00	; 0
+   1f45e:	30 e0       	ldi	r19, 0x00	; 0
+   1f460:	01 50       	subi	r16, 0x01	; 1
+   1f462:	11 09       	sbc	r17, r1
+   1f464:	21 09       	sbc	r18, r1
+   1f466:	31 09       	sbc	r19, r1
+   1f468:	08 0f       	add	r16, r24
+   1f46a:	19 1f       	adc	r17, r25
+   1f46c:	2a 1f       	adc	r18, r26
+   1f46e:	3b 1f       	adc	r19, r27
+   1f470:	01 15       	cp	r16, r1
+        flash_start_address_of_line_within_page = flash_start_address_of_line % SPM_PAGESIZE;      
+        
+        // flash_end_address_of_line must be in bounds
+        if(flash_end_address_of_line > LAST_VALID_BYTE_ADDRESS) return 0;        
+   1f472:	40 ef       	ldi	r20, 0xF0	; 240
+   1f474:	14 07       	cpc	r17, r20
+   1f476:	41 e0       	ldi	r20, 0x01	; 1
+   1f478:	24 07       	cpc	r18, r20
+   1f47a:	31 05       	cpc	r19, r1
+   1f47c:	08 f0       	brcs	.+2      	; 0x1f480 <validate_image+0x1c8>
+   1f47e:	78 c1       	rjmp	.+752    	; 0x1f770 <validate_image+0x4b8>
+   1f480:	27 96       	adiw	r28, 0x07	; 7
+        
+        if(also_burn_flash){              
+   1f482:	5f ad       	ldd	r21, Y+63	; 0x3f
+   1f484:	27 97       	sbiw	r28, 0x07	; 7
+   1f486:	55 23       	and	r21, r21
+   1f488:	09 f4       	brne	.+2      	; 0x1f48c <validate_image+0x1d4>
+   1f48a:	2c c1       	rjmp	.+600    	; 0x1f6e4 <validate_image+0x42c>
+   1f48c:	89 2e       	mov	r8, r25
+          // this is the point at which we need to do more work *if* flash is to be burned
+          // write bytes to the page buffer
+          // handle page boundary conditions, if this line contains bytes that cross a page boundary
+          flash_start_page_of_line = flash_start_address_of_line / SPM_PAGESIZE;
+   1f48e:	9a 2e       	mov	r9, r26
+   1f490:	ab 2e       	mov	r10, r27
+   1f492:	bb 24       	eor	r11, r11
+   1f494:	f4 01       	movw	r30, r8
+   1f496:	77 27       	eor	r23, r23
+          flash_end_page_of_line   = flash_end_address_of_line   / SPM_PAGESIZE;                   
+   1f498:	63 2f       	mov	r22, r19
+   1f49a:	52 2f       	mov	r21, r18
+   1f49c:	41 2f       	mov	r20, r17
+   1f49e:	4c af       	std	Y+60, r20	; 0x3c
+   1f4a0:	5d af       	std	Y+61, r21	; 0x3d
+   1f4a2:	6e af       	std	Y+62, r22	; 0x3e
+   1f4a4:	7f af       	std	Y+63, r23	; 0x3f
+   1f4a6:	2c ad       	ldd	r18, Y+60	; 0x3c
+   1f4a8:	3d ad       	ldd	r19, Y+61	; 0x3d
+   1f4aa:	aa 24       	eor	r10, r10
+          last_flash_address_on_start_page = ((uint32_t) flash_start_page_of_line + 1) * SPM_PAGESIZE - 1;  
+          first_flash_address_on_start_page = (uint32_t) flash_start_page_of_line * SPM_PAGESIZE;
+   1f4ac:	bb 24       	eor	r11, r11
+   1f4ae:	7a 2d       	mov	r23, r10
+   1f4b0:	69 2d       	mov	r22, r9
+   1f4b2:	58 2d       	mov	r21, r8
+   1f4b4:	44 27       	eor	r20, r20
+   1f4b6:	4f a7       	std	Y+47, r20	; 0x2f
+   1f4b8:	58 ab       	std	Y+48, r21	; 0x30
+   1f4ba:	69 ab       	std	Y+49, r22	; 0x31
+   1f4bc:	7a ab       	std	Y+50, r23	; 0x32
+   1f4be:	18 2f       	mov	r17, r24
+          first_flash_address_on_current_page = current_flash_page * SPM_PAGESIZE;
+          num_data_bytes_on_first_page = last_flash_address_on_start_page - flash_start_address_of_line + 1;
+   1f4c0:	11 95       	neg	r17
+   1f4c2:	03 2d       	mov	r16, r3
+          num_data_bytes_on_second_page = num_data_bytes - num_data_bytes_on_first_page;          
+   1f4c4:	01 1b       	sub	r16, r17
+   1f4c6:	5f ef       	ldi	r21, 0xFF	; 255
+          
+          // handle the first record like this
+          if(current_flash_page < 0) current_flash_page = flash_start_page_of_line;
+   1f4c8:	c5 16       	cp	r12, r21
+   1f4ca:	d5 06       	cpc	r13, r21
+   1f4cc:	e5 06       	cpc	r14, r21
+   1f4ce:	f5 06       	cpc	r15, r21
+   1f4d0:	29 f4       	brne	.+10     	; 0x1f4dc <validate_image+0x224>
+   1f4d2:	8c aa       	std	Y+52, r8	; 0x34
+   1f4d4:	9d aa       	std	Y+53, r9	; 0x35
+   1f4d6:	ae aa       	std	Y+54, r10	; 0x36
+   1f4d8:	bf aa       	std	Y+55, r11	; 0x37
+   1f4da:	04 c0       	rjmp	.+8      	; 0x1f4e4 <validate_image+0x22c>
+   1f4dc:	cc aa       	std	Y+52, r12	; 0x34
+   1f4de:	dd aa       	std	Y+53, r13	; 0x35
+   1f4e0:	ee aa       	std	Y+54, r14	; 0x36
+   1f4e2:	ff aa       	std	Y+55, r15	; 0x37
+   1f4e4:	33 20       	and	r3, r3
+          
+          if(line_buffer[0] != 0) num_nonempty_data_records_processed++;        
+   1f4e6:	61 f0       	breq	.+24     	; 0x1f500 <validate_image+0x248>
+   1f4e8:	48 ad       	ldd	r20, Y+56	; 0x38
+   1f4ea:	59 ad       	ldd	r21, Y+57	; 0x39
+   1f4ec:	6a ad       	ldd	r22, Y+58	; 0x3a
+   1f4ee:	7b ad       	ldd	r23, Y+59	; 0x3b
+   1f4f0:	4f 5f       	subi	r20, 0xFF	; 255
+   1f4f2:	5f 4f       	sbci	r21, 0xFF	; 255
+   1f4f4:	6f 4f       	sbci	r22, 0xFF	; 255
+   1f4f6:	7f 4f       	sbci	r23, 0xFF	; 255
+   1f4f8:	48 af       	std	Y+56, r20	; 0x38
+   1f4fa:	59 af       	std	Y+57, r21	; 0x39
+   1f4fc:	6a af       	std	Y+58, r22	; 0x3a
+   1f4fe:	7b af       	std	Y+59, r23	; 0x3b
+   1f500:	ac 01       	movw	r20, r24
+      switch(record_type){
+      case 0:  // data record
+        // flash_start_address_of_line drives all the rest of the calculations
+        flash_start_address_of_line = extended_address + line_address;                
+        flash_end_address_of_line = flash_start_address_of_line + line_buffer[0] - 1;
+        flash_start_address_of_line_within_page = flash_start_address_of_line % SPM_PAGESIZE;      
+   1f502:	55 27       	eor	r21, r21
+   1f504:	6c a9       	ldd	r22, Y+52	; 0x34
+          //            - write the page buffer to flash
+          //            - reset the page buffer
+          //            - add the second part of the line to the page buffer
+          
+          burned_flash = 0;                       
+          if(flash_start_page_of_line == current_flash_page){
+   1f506:	7d a9       	ldd	r23, Y+53	; 0x35
+   1f508:	8e a9       	ldd	r24, Y+54	; 0x36
+   1f50a:	9f a9       	ldd	r25, Y+55	; 0x37
+   1f50c:	86 16       	cp	r8, r22
+   1f50e:	97 06       	cpc	r9, r23
+   1f510:	a8 06       	cpc	r10, r24
+   1f512:	b9 06       	cpc	r11, r25
+   1f514:	e9 f4       	brne	.+58     	; 0x1f550 <validate_image+0x298>
+   1f516:	e2 17       	cp	r30, r18
+            if(flash_start_page_of_line == flash_end_page_of_line){
+   1f518:	f3 07       	cpc	r31, r19
+   1f51a:	39 f4       	brne	.+14     	; 0x1f52a <validate_image+0x272>
+   1f51c:	63 2d       	mov	r22, r3
+              // case 1: this line is contained within the current working page
+              add_line_to_page_buffer(pData, num_data_bytes, flash_start_address_of_line_within_page);
+   1f51e:	ce 01       	movw	r24, r28
+   1f520:	05 96       	adiw	r24, 0x05	; 5
+   1f522:	99 de       	rcall	.-718    	; 0x1f256 <add_line_to_page_buffer>
+   1f524:	75 01       	movw	r14, r10
+   1f526:	64 01       	movw	r12, r8
+   1f528:	dd c0       	rjmp	.+442    	; 0x1f6e4 <validate_image+0x42c>
+   1f52a:	61 2f       	mov	r22, r17
+   1f52c:	ce 01       	movw	r24, r28
+            else{ // flash_start_page_of_line != flash_end_page_of_line
+              // case 2: part of this line is contained within the current working page
+              burned_flash = 1;
+              
+              // add that part of the line's contents to the page buffer              
+              add_line_to_page_buffer(pData, num_data_bytes_on_first_page, 
+   1f52e:	05 96       	adiw	r24, 0x05	; 5
+   1f530:	92 de       	rcall	.-732    	; 0x1f256 <add_line_to_page_buffer>
+   1f532:	21 e0       	ldi	r18, 0x01	; 1
+   1f534:	8f a5       	ldd	r24, Y+47	; 0x2f
+   1f536:	98 a9       	ldd	r25, Y+48	; 0x30
+                flash_start_address_of_line_within_page);
+              
+              // write the page buffer to flash
+              RAMPZ = (first_flash_address_on_start_page + SPM_PAGESIZE - 1 > 0xFFFF) ? 1 : 0;
+   1f538:	a9 a9       	ldd	r26, Y+49	; 0x31
+   1f53a:	ba a9       	ldd	r27, Y+50	; 0x32
+   1f53c:	81 50       	subi	r24, 0x01	; 1
+   1f53e:	9f 4f       	sbci	r25, 0xFF	; 255
+   1f540:	af 4f       	sbci	r26, 0xFF	; 255
+   1f542:	bf 4f       	sbci	r27, 0xFF	; 255
+   1f544:	00 97       	sbiw	r24, 0x00	; 0
+   1f546:	a1 40       	sbci	r26, 0x01	; 1
+   1f548:	b1 05       	cpc	r27, r1
+   1f54a:	08 f0       	brcs	.+2      	; 0x1f54e <validate_image+0x296>
+   1f54c:	55 c0       	rjmp	.+170    	; 0x1f5f8 <validate_image+0x340>
+   1f54e:	53 c0       	rjmp	.+166    	; 0x1f5f6 <validate_image+0x33e>
+   1f550:	be 2d       	mov	r27, r14
+   1f552:	ad 2d       	mov	r26, r13
+   1f554:	9c 2d       	mov	r25, r12
+          // handle page boundary conditions, if this line contains bytes that cross a page boundary
+          flash_start_page_of_line = flash_start_address_of_line / SPM_PAGESIZE;
+          flash_end_page_of_line   = flash_end_address_of_line   / SPM_PAGESIZE;                   
+          last_flash_address_on_start_page = ((uint32_t) flash_start_page_of_line + 1) * SPM_PAGESIZE - 1;  
+          first_flash_address_on_start_page = (uint32_t) flash_start_page_of_line * SPM_PAGESIZE;
+          first_flash_address_on_current_page = current_flash_page * SPM_PAGESIZE;
+   1f556:	88 27       	eor	r24, r24
+   1f558:	4c 01       	movw	r8, r24
+   1f55a:	5d 01       	movw	r10, r26
+   1f55c:	6f ef       	ldi	r22, 0xFF	; 255
+   1f55e:	86 0e       	add	r8, r22
+   1f560:	91 1c       	adc	r9, r1
+   1f562:	a1 1c       	adc	r10, r1
+   1f564:	b1 1c       	adc	r11, r1
+   1f566:	e2 17       	cp	r30, r18
+   1f568:	f3 07       	cpc	r31, r19
+   1f56a:	e1 f4       	brne	.+56     	; 0x1f5a4 <validate_image+0x2ec>
+              add_line_to_page_buffer(pData + num_data_bytes_on_first_page, 
+                num_data_bytes_on_second_page, 0); 
+            }
+          }
+          else{ // flash_start_page_of_line != current_flash_page
+            if(flash_start_page_of_line == flash_end_page_of_line){
+   1f56c:	21 e0       	ldi	r18, 0x01	; 1
+   1f56e:	81 14       	cp	r8, r1
+   1f570:	91 04       	cpc	r9, r1
+              // case 3: this line is part of a single totally new page
+              burned_flash = 1;
+              
+              // write the page buffer to flash
+              RAMPZ = (first_flash_address_on_current_page + SPM_PAGESIZE - 1 > 0xFFFF) ? 1 : 0;
+   1f572:	71 e0       	ldi	r23, 0x01	; 1
+   1f574:	a7 06       	cpc	r10, r23
+   1f576:	b1 04       	cpc	r11, r1
+   1f578:	08 f4       	brcc	.+2      	; 0x1f57c <validate_image+0x2c4>
+   1f57a:	20 e0       	ldi	r18, 0x00	; 0
+   1f57c:	2b bf       	out	0x3b, r18	; 59
+   1f57e:	60 e0       	ldi	r22, 0x00	; 0
+   1f580:	71 e0       	ldi	r23, 0x01	; 1
+   1f582:	28 96       	adiw	r28, 0x08	; 8
+   1f584:	4f af       	std	Y+63, r20	; 0x3f
+   1f586:	28 97       	sbiw	r28, 0x08	; 8
+   1f588:	29 96       	adiw	r28, 0x09	; 9
+   1f58a:	5f af       	std	Y+63, r21	; 0x3f
+   1f58c:	29 97       	sbiw	r28, 0x09	; 9
+   1f58e:	03 de       	rcall	.-1018   	; 0x1f196 <writebuffer.part.0.constprop.3>
+   1f590:	28 96       	adiw	r28, 0x08	; 8
+   1f592:	4f ad       	ldd	r20, Y+63	; 0x3f
+   1f594:	28 97       	sbiw	r28, 0x08	; 8
+   1f596:	29 96       	adiw	r28, 0x09	; 9
+              writebuffer(0, buff, first_flash_address_on_current_page, SPM_PAGESIZE);
+ 
+              // add the entire line to the page buffer
+              add_line_to_page_buffer(pData, num_data_bytes, flash_start_address_of_line_within_page);           
+   1f598:	5f ad       	ldd	r21, Y+63	; 0x3f
+   1f59a:	29 97       	sbiw	r28, 0x09	; 9
+   1f59c:	63 2d       	mov	r22, r3
+   1f59e:	ce 01       	movw	r24, r28
+   1f5a0:	05 96       	adiw	r24, 0x05	; 5
+   1f5a2:	39 c0       	rjmp	.+114    	; 0x1f616 <validate_image+0x35e>
+   1f5a4:	21 e0       	ldi	r18, 0x01	; 1
+   1f5a6:	81 14       	cp	r8, r1
+   1f5a8:	91 04       	cpc	r9, r1
+   1f5aa:	e1 e0       	ldi	r30, 0x01	; 1
+            else{ // flash_start_page_of_line != flash_end_page_of_line
+              // case 4: this line spans two totally new pages (omg is this really possible!?)
+              burned_flash = 1;
+              
+              // write the page buffer to flash
+              RAMPZ = (first_flash_address_on_current_page + SPM_PAGESIZE - 1 > 0xFFFF) ? 1 : 0;
+   1f5ac:	ae 06       	cpc	r10, r30
+   1f5ae:	b1 04       	cpc	r11, r1
+   1f5b0:	08 f4       	brcc	.+2      	; 0x1f5b4 <validate_image+0x2fc>
+   1f5b2:	20 e0       	ldi	r18, 0x00	; 0
+   1f5b4:	2b bf       	out	0x3b, r18	; 59
+   1f5b6:	60 e0       	ldi	r22, 0x00	; 0
+   1f5b8:	71 e0       	ldi	r23, 0x01	; 1
+   1f5ba:	28 96       	adiw	r28, 0x08	; 8
+   1f5bc:	4f af       	std	Y+63, r20	; 0x3f
+   1f5be:	28 97       	sbiw	r28, 0x08	; 8
+   1f5c0:	29 96       	adiw	r28, 0x09	; 9
+   1f5c2:	5f af       	std	Y+63, r21	; 0x3f
+   1f5c4:	29 97       	sbiw	r28, 0x09	; 9
+   1f5c6:	e7 dd       	rcall	.-1074   	; 0x1f196 <writebuffer.part.0.constprop.3>
+   1f5c8:	28 96       	adiw	r28, 0x08	; 8
+   1f5ca:	4f ad       	ldd	r20, Y+63	; 0x3f
+   1f5cc:	28 97       	sbiw	r28, 0x08	; 8
+   1f5ce:	29 96       	adiw	r28, 0x09	; 9
+   1f5d0:	5f ad       	ldd	r21, Y+63	; 0x3f
+              writebuffer(0, buff, first_flash_address_on_current_page, SPM_PAGESIZE);
+
+              // add the first part of the line to the page buffer
+              add_line_to_page_buffer(pData, num_data_bytes_on_first_page, 
+   1f5d2:	29 97       	sbiw	r28, 0x09	; 9
+   1f5d4:	61 2f       	mov	r22, r17
+   1f5d6:	ce 01       	movw	r24, r28
+   1f5d8:	05 96       	adiw	r24, 0x05	; 5
+   1f5da:	3d de       	rcall	.-902    	; 0x1f256 <add_line_to_page_buffer>
+   1f5dc:	21 e0       	ldi	r18, 0x01	; 1
+   1f5de:	8f a5       	ldd	r24, Y+47	; 0x2f
+   1f5e0:	98 a9       	ldd	r25, Y+48	; 0x30
+   1f5e2:	a9 a9       	ldd	r26, Y+49	; 0x31
+   1f5e4:	ba a9       	ldd	r27, Y+50	; 0x32
+   1f5e6:	81 50       	subi	r24, 0x01	; 1
+                flash_start_address_of_line_within_page);
+              
+              // write the page buffer to flash
+              RAMPZ = (first_flash_address_on_start_page + SPM_PAGESIZE - 1 > 0xFFFF) ? 1 : 0;
+   1f5e8:	9f 4f       	sbci	r25, 0xFF	; 255
+   1f5ea:	af 4f       	sbci	r26, 0xFF	; 255
+   1f5ec:	bf 4f       	sbci	r27, 0xFF	; 255
+   1f5ee:	00 97       	sbiw	r24, 0x00	; 0
+   1f5f0:	a1 40       	sbci	r26, 0x01	; 1
+   1f5f2:	b1 05       	cpc	r27, r1
+   1f5f4:	08 f4       	brcc	.+2      	; 0x1f5f8 <validate_image+0x340>
+   1f5f6:	20 e0       	ldi	r18, 0x00	; 0
+   1f5f8:	2b bf       	out	0x3b, r18	; 59
+   1f5fa:	60 e0       	ldi	r22, 0x00	; 0
+   1f5fc:	71 e0       	ldi	r23, 0x01	; 1
+   1f5fe:	8f a5       	ldd	r24, Y+47	; 0x2f
+   1f600:	98 a9       	ldd	r25, Y+48	; 0x30
+   1f602:	c9 dd       	rcall	.-1134   	; 0x1f196 <writebuffer.part.0.constprop.3>
+   1f604:	40 e0       	ldi	r20, 0x00	; 0
+   1f606:	50 e0       	ldi	r21, 0x00	; 0
+   1f608:	60 2f       	mov	r22, r16
+   1f60a:	85 e0       	ldi	r24, 0x05	; 5
+   1f60c:	90 e0       	ldi	r25, 0x00	; 0
+   1f60e:	8c 0f       	add	r24, r28
+   1f610:	9d 1f       	adc	r25, r29
+              writebuffer(0, buff, first_flash_address_on_start_page, SPM_PAGESIZE);
+
+              // add the second part of the line to the page buffer
+              // since we crossed a page boundary, it *must* start at offset zero
+              add_line_to_page_buffer(pData + num_data_bytes_on_first_page, 
+   1f612:	81 0f       	add	r24, r17
+   1f614:	91 1d       	adc	r25, r1
+   1f616:	1f de       	rcall	.-962    	; 0x1f256 <add_line_to_page_buffer>
+   1f618:	cc ac       	ldd	r12, Y+60	; 0x3c
+   1f61a:	dd ac       	ldd	r13, Y+61	; 0x3d
+   1f61c:	ee ac       	ldd	r14, Y+62	; 0x3e
+   1f61e:	ff ac       	ldd	r15, Y+63	; 0x3f
+   1f620:	8b b1       	in	r24, 0x0b	; 11
+   1f622:	50 e4       	ldi	r21, 0x40	; 64
+   1f624:	85 27       	eor	r24, r21
+   1f626:	8b b9       	out	0x0b, r24	; 11
+            }
+          }
+          
+          if(burned_flash){
+            last_flash_page_written = current_flash_page; 
+            current_flash_page = flash_end_page_of_line;            
+   1f628:	2c a9       	ldd	r18, Y+52	; 0x34
+   1f62a:	3d a9       	ldd	r19, Y+53	; 0x35
+   1f62c:	4e a9       	ldd	r20, Y+54	; 0x36
+   1f62e:	5f a9       	ldd	r21, Y+55	; 0x37
+            WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
+   1f630:	2d a3       	std	Y+37, r18	; 0x25
+   1f632:	3e a3       	std	Y+38, r19	; 0x26
+   1f634:	4f a3       	std	Y+39, r20	; 0x27
+   1f636:	58 a7       	std	Y+40, r21	; 0x28
+   1f638:	55 c0       	rjmp	.+170    	; 0x1f6e4 <validate_image+0x42c>
+   1f63a:	2d a1       	ldd	r18, Y+37	; 0x25
+   1f63c:	3e a1       	ldd	r19, Y+38	; 0x26
+   1f63e:	4f a1       	ldd	r20, Y+39	; 0x27
+   1f640:	58 a5       	ldd	r21, Y+40	; 0x28
+   1f642:	2f 3f       	cpi	r18, 0xFF	; 255
+   1f644:	3f 4f       	sbci	r19, 0xFF	; 255
+   1f646:	4f 4f       	sbci	r20, 0xFF	; 255
+   1f648:	5f 4f       	sbci	r21, 0xFF	; 255
+          // at this point we still have to write the page buffer to flash
+          // if the page buffer has never yet been written to flash and at least
+          //   one valid data record was processed,
+          // or if the current flash page differs from the last one written
+          // then we need to write the page buffer to flash
+          if(((last_flash_page_written == -1) && (num_nonempty_data_records_processed > 0)) || 
+   1f64a:	41 f4       	brne	.+16     	; 0x1f65c <validate_image+0x3a4>
+   1f64c:	28 ad       	ldd	r18, Y+56	; 0x38
+   1f64e:	39 ad       	ldd	r19, Y+57	; 0x39
+   1f650:	4a ad       	ldd	r20, Y+58	; 0x3a
+   1f652:	5b ad       	ldd	r21, Y+59	; 0x3b
+   1f654:	23 2b       	or	r18, r19
+   1f656:	24 2b       	or	r18, r20
+   1f658:	25 2b       	or	r18, r21
+   1f65a:	49 f4       	brne	.+18     	; 0x1f66e <validate_image+0x3b6>
+   1f65c:	2d a1       	ldd	r18, Y+37	; 0x25
+   1f65e:	3e a1       	ldd	r19, Y+38	; 0x26
+   1f660:	4f a1       	ldd	r20, Y+39	; 0x27
+   1f662:	58 a5       	ldd	r21, Y+40	; 0x28
+   1f664:	2c 15       	cp	r18, r12
+   1f666:	3d 05       	cpc	r19, r13
+   1f668:	4e 05       	cpc	r20, r14
+   1f66a:	5f 05       	cpc	r21, r15
+   1f66c:	d9 f1       	breq	.+118    	; 0x1f6e4 <validate_image+0x42c>
+   1f66e:	be 2d       	mov	r27, r14
+   1f670:	ad 2d       	mov	r26, r13
+   1f672:	9c 2d       	mov	r25, r12
+   1f674:	88 27       	eor	r24, r24
+   1f676:	ac 01       	movw	r20, r24
+   1f678:	bd 01       	movw	r22, r26
+   1f67a:	41 50       	subi	r20, 0x01	; 1
+   1f67c:	5f 4f       	sbci	r21, 0xFF	; 255
+             (last_flash_page_written != current_flash_page)){
+             
+             first_flash_address_on_current_page = current_flash_page * SPM_PAGESIZE;
+   1f67e:	6f 4f       	sbci	r22, 0xFF	; 255
+   1f680:	7f 4f       	sbci	r23, 0xFF	; 255
+   1f682:	21 e0       	ldi	r18, 0x01	; 1
+   1f684:	41 15       	cp	r20, r1
+             RAMPZ = (first_flash_address_on_current_page + SPM_PAGESIZE - 1 > 0xFFFF) ? 1 : 0;
+   1f686:	51 05       	cpc	r21, r1
+   1f688:	61 40       	sbci	r22, 0x01	; 1
+   1f68a:	71 05       	cpc	r23, r1
+   1f68c:	08 f4       	brcc	.+2      	; 0x1f690 <validate_image+0x3d8>
+   1f68e:	20 e0       	ldi	r18, 0x00	; 0
+   1f690:	2b bf       	out	0x3b, r18	; 59
+   1f692:	60 e0       	ldi	r22, 0x00	; 0
+   1f694:	71 e0       	ldi	r23, 0x01	; 1
+   1f696:	7f dd       	rcall	.-1282   	; 0x1f196 <writebuffer.part.0.constprop.3>
+   1f698:	25 c0       	rjmp	.+74     	; 0x1f6e4 <validate_image+0x42c>
+   1f69a:	89 2b       	or	r24, r25
+   1f69c:	09 f0       	breq	.+2      	; 0x1f6a0 <validate_image+0x3e8>
+   1f69e:	68 c0       	rjmp	.+208    	; 0x1f770 <validate_image+0x4b8>
+   1f6a0:	8d 81       	ldd	r24, Y+5	; 0x05
+   1f6a2:	90 e0       	ldi	r25, 0x00	; 0
+   1f6a4:	a0 e0       	ldi	r26, 0x00	; 0
+   1f6a6:	b0 e0       	ldi	r27, 0x00	; 0
+   1f6a8:	44 24       	eor	r4, r4
+   1f6aa:	58 2e       	mov	r5, r24
+             writebuffer(0, buff, first_flash_address_on_current_page, SPM_PAGESIZE);             
+          }
+        break;
+      case 2:  // extended segment address record 
+        if(line_address != 0) return 0; // by definition
+   1f6ac:	69 2e       	mov	r6, r25
+   1f6ae:	7a 2e       	mov	r7, r26
+   1f6b0:	8e 81       	ldd	r24, Y+6	; 0x06
+        
+        extended_address = line_buffer[4];
+   1f6b2:	48 2a       	or	r4, r24
+   1f6b4:	54 e0       	ldi	r21, 0x04	; 4
+   1f6b6:	44 0c       	add	r4, r4
+   1f6b8:	55 1c       	adc	r5, r5
+        extended_address <<= 8;
+   1f6ba:	66 1c       	adc	r6, r6
+   1f6bc:	77 1c       	adc	r7, r7
+   1f6be:	5a 95       	dec	r21
+   1f6c0:	d1 f7       	brne	.-12     	; 0x1f6b6 <validate_image+0x3fe>
+        extended_address |= line_buffer[5];
+   1f6c2:	10 c0       	rjmp	.+32     	; 0x1f6e4 <validate_image+0x42c>
+   1f6c4:	89 2b       	or	r24, r25
+        extended_address <<= 4; // extended address is bits 4..19
+   1f6c6:	09 f0       	breq	.+2      	; 0x1f6ca <validate_image+0x412>
+   1f6c8:	53 c0       	rjmp	.+166    	; 0x1f770 <validate_image+0x4b8>
+   1f6ca:	8d 81       	ldd	r24, Y+5	; 0x05
+   1f6cc:	90 e0       	ldi	r25, 0x00	; 0
+   1f6ce:	a0 e0       	ldi	r26, 0x00	; 0
+   1f6d0:	b0 e0       	ldi	r27, 0x00	; 0
+   1f6d2:	ba 2f       	mov	r27, r26
+   1f6d4:	a9 2f       	mov	r26, r25
+        break;      
+      case 4: // extended linear address record
+        if(line_address != 0) return 0; // by definition
+   1f6d6:	98 2f       	mov	r25, r24
+   1f6d8:	88 27       	eor	r24, r24
+   1f6da:	2e 81       	ldd	r18, Y+6	; 0x06
+        
+        extended_address = line_buffer[4];
+   1f6dc:	82 2b       	or	r24, r18
+   1f6de:	3c 01       	movw	r6, r24
+   1f6e0:	55 24       	eor	r5, r5
+   1f6e2:	44 24       	eor	r4, r4
+        extended_address <<= 8;
+   1f6e4:	10 e0       	ldi	r17, 0x00	; 0
+   1f6e6:	2d c0       	rjmp	.+90     	; 0x1f742 <validate_image+0x48a>
+   1f6e8:	90 ed       	ldi	r25, 0xD0	; 208
+   1f6ea:	98 0f       	add	r25, r24
+        extended_address |= line_buffer[5];
+   1f6ec:	9a 30       	cpi	r25, 0x0A	; 10
+   1f6ee:	38 f1       	brcs	.+78     	; 0x1f73e <validate_image+0x486>
+        extended_address <<= 16; // extended address is bits 16..31
+   1f6f0:	9f eb       	ldi	r25, 0xBF	; 191
+   1f6f2:	98 0f       	add	r25, r24
+   1f6f4:	96 30       	cpi	r25, 0x06	; 6
+      line_length = 0;
+      state = VALIDATE_STATE_EVEN_HEX_CHAR;
+      break;
+    case VALIDATE_STATE_EXPECT_NEWLINE:
+      if(dataByte != '\n') return 0;
+      state = VALIDATE_STATE_EXPECT_COLON;
+   1f6f6:	18 f4       	brcc	.+6      	; 0x1f6fe <validate_image+0x446>
+        
+        extended_address = line_buffer[4];
+        extended_address <<= 8;
+        extended_address |= line_buffer[5];
+        extended_address <<= 16; // extended address is bits 16..31
+        break;    
+   1f6f8:	87 53       	subi	r24, 0x37	; 55
+        break;
+      }
+      
+      break;        
+    case VALIDATE_STATE_EVEN_HEX_CHAR: // i.e. d in 'd3'        
+      if(dataByte <= '9' && dataByte >='0'){
+   1f6fa:	8b ab       	std	Y+51, r24	; 0x33
+   1f6fc:	21 c0       	rjmp	.+66     	; 0x1f740 <validate_image+0x488>
+   1f6fe:	8d 30       	cpi	r24, 0x0D	; 13
+   1f700:	b9 f5       	brne	.+110    	; 0x1f770 <validate_image+0x4b8>
+        even_char = dataByte - '0';
+        state = VALIDATE_STATE_ODD_HEX_CHAR;
+      }
+      else if(dataByte <= 'F' && dataByte >='A'){
+   1f702:	13 e0       	ldi	r17, 0x03	; 3
+   1f704:	1e c0       	rjmp	.+60     	; 0x1f742 <validate_image+0x48a>
+   1f706:	90 ed       	ldi	r25, 0xD0	; 208
+   1f708:	98 0f       	add	r25, r24
+        even_char = dataByte - 'A' + 10;
+   1f70a:	9a 30       	cpi	r25, 0x0A	; 10
+   1f70c:	30 f0       	brcs	.+12     	; 0x1f71a <validate_image+0x462>
+   1f70e:	9f eb       	ldi	r25, 0xBF	; 191
+        state = VALIDATE_STATE_ODD_HEX_CHAR;
+      }
+      else if(dataByte == '\r'){
+   1f710:	98 0f       	add	r25, r24
+   1f712:	96 30       	cpi	r25, 0x06	; 6
+        state = VALIDATE_STATE_EXPECT_NEWLINE;
+   1f714:	68 f5       	brcc	.+90     	; 0x1f770 <validate_image+0x4b8>
+   1f716:	99 ec       	ldi	r25, 0xC9	; 201
+      else{
+        return 0;
+      }
+      break;
+    case VALIDATE_STATE_ODD_HEX_CHAR:  // i.e. 3 in 'd3'
+      if(dataByte <= '9' && dataByte >='0'){
+   1f718:	98 0f       	add	r25, r24
+   1f71a:	4f e1       	ldi	r20, 0x1F	; 31
+   1f71c:	42 15       	cp	r20, r2
+   1f71e:	40 f1       	brcs	.+80     	; 0x1f770 <validate_image+0x4b8>
+        odd_char = dataByte - '0';
+        state = VALIDATE_STATE_EVEN_HEX_CHAR;
+      }
+      else if(dataByte <= 'F' && dataByte >='A'){
+   1f720:	e1 e0       	ldi	r30, 0x01	; 1
+   1f722:	f0 e0       	ldi	r31, 0x00	; 0
+   1f724:	ec 0f       	add	r30, r28
+   1f726:	fd 1f       	adc	r31, r29
+        odd_char = dataByte - 'A' + 10;
+   1f728:	e2 0d       	add	r30, r2
+   1f72a:	f1 1d       	adc	r31, r1
+        return 0;
+      }    
+      
+      // interpret the newly acquired pair as a byte value 
+      // and store it in line_buffer for the sake of local checksum-ing later
+      if(line_buffer_idx < 32){ // guard against buffer overflow
+   1f72c:	2b a9       	ldd	r18, Y+51	; 0x33
+   1f72e:	50 e1       	ldi	r21, 0x10	; 16
+   1f730:	25 9f       	mul	r18, r21
+        line_buffer[line_buffer_idx++] = (even_char << 4) + odd_char;          
+   1f732:	90 0d       	add	r25, r0
+   1f734:	11 24       	eor	r1, r1
+   1f736:	90 83       	st	Z, r25
+   1f738:	23 94       	inc	r2
+   1f73a:	11 e0       	ldi	r17, 0x01	; 1
+   1f73c:	02 c0       	rjmp	.+4      	; 0x1f742 <validate_image+0x48a>
+   1f73e:	9b ab       	std	Y+51, r25	; 0x33
+   1f740:	12 e0       	ldi	r17, 0x02	; 2
+   1f742:	29 a5       	ldd	r18, Y+41	; 0x29
+   1f744:	3a a5       	ldd	r19, Y+42	; 0x2a
+   1f746:	4b a5       	ldd	r20, Y+43	; 0x2b
+   1f748:	5c a5       	ldd	r21, Y+44	; 0x2c
+   1f74a:	2f 5f       	subi	r18, 0xFF	; 255
+      }
+      else{
+        return 0;
+      }
+      
+      break;
+   1f74c:	3f 4f       	sbci	r19, 0xFF	; 255
+   1f74e:	4f 4f       	sbci	r20, 0xFF	; 255
+   1f750:	5f 4f       	sbci	r21, 0xFF	; 255
+      
+      break;        
+    case VALIDATE_STATE_EVEN_HEX_CHAR: // i.e. d in 'd3'        
+      if(dataByte <= '9' && dataByte >='0'){
+        even_char = dataByte - '0';
+        state = VALIDATE_STATE_ODD_HEX_CHAR;
+   1f752:	29 a7       	std	Y+41, r18	; 0x29
+  uint16_t flash_start_address_of_line_within_page = 0;   
+  uint8_t calculated_checksum = 0;
+  uint8_t burned_flash = 0; 
+  char dataByte = 0;
+  
+  for(spiflash_address = 0; spiflash_address < hex_file_size; spiflash_address++){
+   1f754:	3a a7       	std	Y+42, r19	; 0x2a
+   1f756:	4b a7       	std	Y+43, r20	; 0x2b
+   1f758:	5c a7       	std	Y+44, r21	; 0x2c
+   1f75a:	00 ce       	rjmp	.-1024   	; 0x1f35c <validate_image+0xa4>
+   1f75c:	81 e0       	ldi	r24, 0x01	; 1
+   1f75e:	2d a5       	ldd	r18, Y+45	; 0x2d
+   1f760:	3e a5       	ldd	r19, Y+46	; 0x2e
+   1f762:	26 96       	adiw	r28, 0x06	; 6
+   1f764:	4e ad       	ldd	r20, Y+62	; 0x3e
+   1f766:	5f ad       	ldd	r21, Y+63	; 0x3f
+   1f768:	26 97       	sbiw	r28, 0x06	; 6
+   1f76a:	24 17       	cp	r18, r20
+   1f76c:	35 07       	cpc	r19, r21
+    }    
+  }
+  
+  // finally verify that the calculated checksum matches the expected checksum
+  // for the entire flash image
+  if(crc != expected_crc16_checksum) return 0;
+   1f76e:	09 f0       	breq	.+2      	; 0x1f772 <validate_image+0x4ba>
+   1f770:	80 e0       	ldi	r24, 0x00	; 0
+   1f772:	c8 5b       	subi	r28, 0xB8	; 184
+   1f774:	df 4f       	sbci	r29, 0xFF	; 255
+   1f776:	0f b6       	in	r0, 0x3f	; 63
+   1f778:	f8 94       	cli
+   1f77a:	de bf       	out	0x3e, r29	; 62
+   1f77c:	0f be       	out	0x3f, r0	; 63
+   1f77e:	cd bf       	out	0x3d, r28	; 61
+   1f780:	df 91       	pop	r29
+    // while validating , blink the LED on and off every so often to indicte progress
+    if((spiflash_address & 0x1FFF) == 0) WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
+    
+    switch(state){
+    case VALIDATE_STATE_EXPECT_COLON:
+      if(dataByte != ':') return 0;
+   1f782:	cf 91       	pop	r28
+  // finally verify that the calculated checksum matches the expected checksum
+  // for the entire flash image
+  if(crc != expected_crc16_checksum) return 0;
+  
+  return 1;
+}
+   1f784:	1f 91       	pop	r17
+   1f786:	0f 91       	pop	r16
+   1f788:	ff 90       	pop	r15
+   1f78a:	ef 90       	pop	r14
+   1f78c:	df 90       	pop	r13
+   1f78e:	cf 90       	pop	r12
+   1f790:	bf 90       	pop	r11
+   1f792:	af 90       	pop	r10
+   1f794:	9f 90       	pop	r9
+   1f796:	8f 90       	pop	r8
+   1f798:	7f 90       	pop	r7
+   1f79a:	6f 90       	pop	r6
+   1f79c:	5f 90       	pop	r5
+   1f79e:	4f 90       	pop	r4
+   1f7a0:	3f 90       	pop	r3
+   1f7a2:	2f 90       	pop	r2
+   1f7a4:	08 95       	ret
+
+0001f7a6 <putch>:
+  }
+}
+
+void putch(char ch) {
+#ifndef SOFT_UART
+  while (!(UART_SRA & _BV(UDRE0)));
+   1f7a6:	90 91 c0 00 	lds	r25, 0x00C0
+   1f7aa:	95 ff       	sbrs	r25, 5
+   1f7ac:	fc cf       	rjmp	.-8      	; 0x1f7a6 <putch>
+  UART_UDR = ch;
+   1f7ae:	80 93 c6 00 	sts	0x00C6, r24
+   1f7b2:	08 95       	ret
+
+0001f7b4 <getch>:
+      [uartBit] "I" (UART_RX_BIT)
+    :
+      "r25"
+);
+#else
+  while(!(UART_SRA & _BV(RXC0)))
+   1f7b4:	80 91 c0 00 	lds	r24, 0x00C0
+   1f7b8:	87 ff       	sbrs	r24, 7
+   1f7ba:	fc cf       	rjmp	.-8      	; 0x1f7b4 <getch>
+    ;
+  if (!(UART_SRA & _BV(FE0))) {
+   1f7bc:	80 91 c0 00 	lds	r24, 0x00C0
+   1f7c0:	84 fd       	sbrc	r24, 4
+   1f7c2:	01 c0       	rjmp	.+2      	; 0x1f7c6 <getch+0x12>
+}
+#endif
+
+// Watchdog functions. These are only safe with interrupts turned off.
+void watchdogReset() {
+  __asm__ __volatile__ (
+   1f7c4:	a8 95       	wdr
+       * don't care that an invalid char is returned...)
+       */
+    watchdogReset();
+  }
+  
+  ch = UART_UDR;
+   1f7c6:	80 91 c6 00 	lds	r24, 0x00C6
+  LED_PIN |= _BV(LED);
+#endif
+#endif
+
+  return ch;
+}
+   1f7ca:	08 95       	ret
+
+0001f7cc <watchdogConfig>:
+    "wdr\n"
+  );
+}
+
+void watchdogConfig(uint8_t x) {
+  WDTCSR = _BV(WDCE) | _BV(WDE);
+   1f7cc:	e0 e6       	ldi	r30, 0x60	; 96
+   1f7ce:	f0 e0       	ldi	r31, 0x00	; 0
+   1f7d0:	98 e1       	ldi	r25, 0x18	; 24
+   1f7d2:	90 83       	st	Z, r25
+  WDTCSR = x;
+   1f7d4:	80 83       	st	Z, r24
+   1f7d6:	08 95       	ret
+
+0001f7d8 <invalidate_magic_number_and_reset>:
+
+void invalidate_magic_number_and_reset(void){
+  // Wipe out the Magic Number so that next reset we don't reburn the flash
+  // Don't just erase the sector, because it's useful for the application
+  // to know the signature of the last loaded file by reading out of Flash 
+  FLASH_command(SPIFLASH_BYTEPAGEPROGRAM, 1);  // Byte/Page Program
+   1f7d8:	61 e0       	ldi	r22, 0x01	; 1
+   1f7da:	82 e0       	ldi	r24, 0x02	; 2
+   1f7dc:	16 dd       	rcall	.-1492   	; 0x1f20a <FLASH_command>
+   1f7de:	87 e0       	ldi	r24, 0x07	; 7
+  SPI_transfer((uint8_t) ((MAGIC_NUMBER_ADDRESS + 1) >> 16));
+   1f7e0:	06 dd       	rcall	.-1524   	; 0x1f1ee <SPI_transfer>
+   1f7e2:	8f ef       	ldi	r24, 0xFF	; 255
+   1f7e4:	04 dd       	rcall	.-1528   	; 0x1f1ee <SPI_transfer>
+  SPI_transfer((uint8_t) ((MAGIC_NUMBER_ADDRESS + 1) >> 8));
+   1f7e6:	8d ef       	ldi	r24, 0xFD	; 253
+   1f7e8:	02 dd       	rcall	.-1532   	; 0x1f1ee <SPI_transfer>
+   1f7ea:	80 e0       	ldi	r24, 0x00	; 0
+  SPI_transfer((uint8_t) ((MAGIC_NUMBER_ADDRESS + 1)));
+   1f7ec:	00 dd       	rcall	.-1536   	; 0x1f1ee <SPI_transfer>
+   1f7ee:	42 9a       	sbi	0x08, 2	; 8
+   1f7f0:	88 e0       	ldi	r24, 0x08	; 8
+  SPI_transfer(0x00);   // it's enough to just corrupt the second byte       
+   1f7f2:	ec df       	rcall	.-40     	; 0x1f7cc <watchdogConfig>
+   1f7f4:	ff cf       	rjmp	.-2      	; 0x1f7f4 <invalidate_magic_number_and_reset+0x1c>
+
+0001f7f6 <CheckFlashImage>:
+  watchdogConfig(WATCHDOG_16MS);    // shorten WD timeout
+  while (1)        // and busy-loop so that WD causes
+    ;              // a reset and app start.     
+}
+
+void CheckFlashImage() {
+   1f7f6:	cf 92       	push	r12
+   1f7f8:	df 92       	push	r13
+   1f7fa:	ef 92       	push	r14
+   1f7fc:	ff 92       	push	r15
+   1f7fe:	cf 93       	push	r28
+   1f800:	df 93       	push	r29
+  watchdogConfig(WATCHDOG_OFF);
+   1f802:	80 e0       	ldi	r24, 0x00	; 0
+   1f804:	e3 df       	rcall	.-58     	; 0x1f7cc <watchdogConfig>
+   1f806:	2c 9a       	sbi	0x05, 4	; 5
+
+  // set up the SPI hardware - ATmega1284P specific code here
+  PORTB |= _BV(PB4);                       // set SS HIGH
+   1f808:	84 b1       	in	r24, 0x04	; 4
+  DDRB  |= _BV(PB4) | _BV(PB5) | _BV(PB7); // OUTPUTS for SS, MOSI, SCK
+   1f80a:	80 6b       	ori	r24, 0xB0	; 176
+   1f80c:	84 b9       	out	0x04, r24	; 4
+   1f80e:	3a 9a       	sbi	0x07, 2	; 7
+
+  DDRC  |= _BV(FLASHSS);                   // OUTPUT for FLASH_SS
+   1f810:	42 9a       	sbi	0x08, 2	; 8
+  FLASH_UNSELECT;                          // unselect FLASH chip
+   1f812:	56 9a       	sbi	0x0a, 6	; 10
+
+  WILDFIRE_LED_DDR |= _BV(WILDFIRE_LED);   // make the LED pin for WildFire an output
+   1f814:	5e 98       	cbi	0x0b, 6	; 11
+  WILDFIRE_LED_PORT &= ~_BV(WILDFIRE_LED); // turn the WildFire LED Off
+   1f816:	8c b5       	in	r24, 0x2c	; 44
+
+  SPCR |= _BV(MSTR) | _BV(SPE); //enable SPI and set SPI to MASTER mode
+   1f818:	80 65       	ori	r24, 0x50	; 80
+   1f81a:	8c bd       	out	0x2c, r24	; 44
+   1f81c:	42 98       	cbi	0x08, 2	; 8
+
+  // check if the SPI Flash is present at all
+  //    read first byte of JEDECID
+  //    if chip is present it should return a non-0 and non-FF value
+  FLASH_SELECT;
+   1f81e:	8f e9       	ldi	r24, 0x9F	; 159
+  SPI_transfer(SPIFLASH_JEDECID);
+   1f820:	e6 dc       	rcall	.-1588   	; 0x1f1ee <SPI_transfer>
+   1f822:	80 e0       	ldi	r24, 0x00	; 0
+   1f824:	e4 dc       	rcall	.-1592   	; 0x1f1ee <SPI_transfer>
+  uint8_t deviceId = SPI_transfer(0);
+   1f826:	42 9a       	sbi	0x08, 2	; 8
+   1f828:	81 50       	subi	r24, 0x01	; 1
+   1f82a:	8e 3f       	cpi	r24, 0xFE	; 254
+  FLASH_UNSELECT;
+   1f82c:	08 f0       	brcs	.+2      	; 0x1f830 <CheckFlashImage+0x3a>
+  if ((deviceId == 0) || (deviceId == 0xFF)) return;
+   1f82e:	7b c0       	rjmp	.+246    	; 0x1f926 <CheckFlashImage+0x130>
+   1f830:	61 e0       	ldi	r22, 0x01	; 1
+   1f832:	81 e0       	ldi	r24, 0x01	; 1
+   1f834:	ea dc       	rcall	.-1580   	; 0x1f20a <FLASH_command>
+
+  // global unprotect  
+  FLASH_command(SPIFLASH_STATUSWRITE, 1);
+   1f836:	80 e0       	ldi	r24, 0x00	; 0
+   1f838:	da dc       	rcall	.-1612   	; 0x1f1ee <SPI_transfer>
+   1f83a:	42 9a       	sbi	0x08, 2	; 8
+   1f83c:	6c ef       	ldi	r22, 0xFC	; 252
+  SPI_transfer(0);
+   1f83e:	7f ef       	ldi	r23, 0xFF	; 255
+   1f840:	87 e0       	ldi	r24, 0x07	; 7
+   1f842:	90 e0       	ldi	r25, 0x00	; 0
+  FLASH_UNSELECT;  
+   1f844:	f1 dc       	rcall	.-1566   	; 0x1f228 <FLASH_readByte>
+
+  // first check if the magic number is located in the last byte of Flash
+  uint32_t magic_number = FLASH_readByte(MAGIC_NUMBER_ADDRESS);
+   1f846:	c8 2e       	mov	r12, r24
+   1f848:	d1 2c       	mov	r13, r1
+   1f84a:	e1 2c       	mov	r14, r1
+   1f84c:	f1 2c       	mov	r15, r1
+   1f84e:	fe 2c       	mov	r15, r14
+   1f850:	ed 2c       	mov	r14, r13
+   1f852:	dc 2c       	mov	r13, r12
+   1f854:	cc 24       	eor	r12, r12
+   1f856:	6d ef       	ldi	r22, 0xFD	; 253
+   1f858:	7f ef       	ldi	r23, 0xFF	; 255
+  magic_number <<= 8;
+   1f85a:	87 e0       	ldi	r24, 0x07	; 7
+   1f85c:	90 e0       	ldi	r25, 0x00	; 0
+   1f85e:	e4 dc       	rcall	.-1592   	; 0x1f228 <FLASH_readByte>
+   1f860:	c8 2a       	or	r12, r24
+  magic_number |= FLASH_readByte(MAGIC_NUMBER_ADDRESS + 1);
+   1f862:	fe 2c       	mov	r15, r14
+   1f864:	ed 2c       	mov	r14, r13
+   1f866:	dc 2c       	mov	r13, r12
+   1f868:	cc 24       	eor	r12, r12
+   1f86a:	6e ef       	ldi	r22, 0xFE	; 254
+   1f86c:	7f ef       	ldi	r23, 0xFF	; 255
+   1f86e:	87 e0       	ldi	r24, 0x07	; 7
+  magic_number <<= 8;
+   1f870:	90 e0       	ldi	r25, 0x00	; 0
+   1f872:	da dc       	rcall	.-1612   	; 0x1f228 <FLASH_readByte>
+   1f874:	c8 2a       	or	r12, r24
+   1f876:	fe 2c       	mov	r15, r14
+  magic_number |= FLASH_readByte(MAGIC_NUMBER_ADDRESS + 2);
+   1f878:	ed 2c       	mov	r14, r13
+   1f87a:	dc 2c       	mov	r13, r12
+   1f87c:	cc 24       	eor	r12, r12
+   1f87e:	6f ef       	ldi	r22, 0xFF	; 255
+   1f880:	7f ef       	ldi	r23, 0xFF	; 255
+   1f882:	87 e0       	ldi	r24, 0x07	; 7
+   1f884:	90 e0       	ldi	r25, 0x00	; 0
+  magic_number <<= 8;
+   1f886:	d0 dc       	rcall	.-1632   	; 0x1f228 <FLASH_readByte>
+   1f888:	c8 2a       	or	r12, r24
+   1f88a:	81 e1       	ldi	r24, 0x11	; 17
+   1f88c:	c8 16       	cp	r12, r24
+  magic_number |= FLASH_readByte(MAGIC_NUMBER_ADDRESS + 3);  
+   1f88e:	8a eb       	ldi	r24, 0xBA	; 186
+   1f890:	d8 06       	cpc	r13, r24
+   1f892:	8d ed       	ldi	r24, 0xDD	; 221
+   1f894:	e8 06       	cpc	r14, r24
+   1f896:	f1 04       	cpc	r15, r1
+   1f898:	09 f0       	breq	.+2      	; 0x1f89c <CheckFlashImage+0xa6>
+   1f89a:	45 c0       	rjmp	.+138    	; 0x1f926 <CheckFlashImage+0x130>
+  if(magic_number != MAGIC_NUMBER) return;
+   1f89c:	66 ef       	ldi	r22, 0xF6	; 246
+   1f89e:	7f ef       	ldi	r23, 0xFF	; 255
+   1f8a0:	87 e0       	ldi	r24, 0x07	; 7
+   1f8a2:	90 e0       	ldi	r25, 0x00	; 0
+   1f8a4:	c1 dc       	rcall	.-1662   	; 0x1f228 <FLASH_readByte>
+   1f8a6:	c8 2e       	mov	r12, r24
+   1f8a8:	d1 2c       	mov	r13, r1
+   1f8aa:	e1 2c       	mov	r14, r1
+   1f8ac:	f1 2c       	mov	r15, r1
+  
+  //WILDFIRE_LED_PORT ^= _BV(WILDFIRE_LED);
+  //_delay_ms(100);    
+  
+  // if it is... grab the file size and the checksum out of the Flash
+  uint32_t hex_file_size = FLASH_readByte(FILESIZE_ADDRESS);
+   1f8ae:	fe 2c       	mov	r15, r14
+   1f8b0:	ed 2c       	mov	r14, r13
+   1f8b2:	dc 2c       	mov	r13, r12
+   1f8b4:	cc 24       	eor	r12, r12
+   1f8b6:	67 ef       	ldi	r22, 0xF7	; 247
+   1f8b8:	7f ef       	ldi	r23, 0xFF	; 255
+   1f8ba:	87 e0       	ldi	r24, 0x07	; 7
+   1f8bc:	90 e0       	ldi	r25, 0x00	; 0
+   1f8be:	b4 dc       	rcall	.-1688   	; 0x1f228 <FLASH_readByte>
+   1f8c0:	c8 2a       	or	r12, r24
+  hex_file_size <<= 8;
+   1f8c2:	fe 2c       	mov	r15, r14
+   1f8c4:	ed 2c       	mov	r14, r13
+   1f8c6:	dc 2c       	mov	r13, r12
+   1f8c8:	cc 24       	eor	r12, r12
+  hex_file_size |= FLASH_readByte(FILESIZE_ADDRESS + 1);
+   1f8ca:	68 ef       	ldi	r22, 0xF8	; 248
+   1f8cc:	7f ef       	ldi	r23, 0xFF	; 255
+   1f8ce:	87 e0       	ldi	r24, 0x07	; 7
+   1f8d0:	90 e0       	ldi	r25, 0x00	; 0
+   1f8d2:	aa dc       	rcall	.-1708   	; 0x1f228 <FLASH_readByte>
+   1f8d4:	c8 2a       	or	r12, r24
+   1f8d6:	fe 2c       	mov	r15, r14
+  hex_file_size <<= 8;
+   1f8d8:	ed 2c       	mov	r14, r13
+   1f8da:	dc 2c       	mov	r13, r12
+   1f8dc:	cc 24       	eor	r12, r12
+   1f8de:	69 ef       	ldi	r22, 0xF9	; 249
+  hex_file_size |= FLASH_readByte(FILESIZE_ADDRESS + 2);
+   1f8e0:	7f ef       	ldi	r23, 0xFF	; 255
+   1f8e2:	87 e0       	ldi	r24, 0x07	; 7
+   1f8e4:	90 e0       	ldi	r25, 0x00	; 0
+   1f8e6:	a0 dc       	rcall	.-1728   	; 0x1f228 <FLASH_readByte>
+   1f8e8:	c8 2a       	or	r12, r24
+   1f8ea:	6a ef       	ldi	r22, 0xFA	; 250
+   1f8ec:	7f ef       	ldi	r23, 0xFF	; 255
+  hex_file_size <<= 8;
+   1f8ee:	87 e0       	ldi	r24, 0x07	; 7
+   1f8f0:	90 e0       	ldi	r25, 0x00	; 0
+   1f8f2:	9a dc       	rcall	.-1740   	; 0x1f228 <FLASH_readByte>
+   1f8f4:	c8 2f       	mov	r28, r24
+  hex_file_size |= FLASH_readByte(FILESIZE_ADDRESS + 3);    
+   1f8f6:	d0 e0       	ldi	r29, 0x00	; 0
+   1f8f8:	dc 2f       	mov	r29, r28
+   1f8fa:	cc 27       	eor	r28, r28
+   1f8fc:	6b ef       	ldi	r22, 0xFB	; 251
+   1f8fe:	7f ef       	ldi	r23, 0xFF	; 255
+   1f900:	87 e0       	ldi	r24, 0x07	; 7
+   1f902:	90 e0       	ldi	r25, 0x00	; 0
+  
+  uint16_t expected_crc16_checksum = FLASH_readByte(CRC16_CHECKSUM_ADDRESS);
+   1f904:	91 dc       	rcall	.-1758   	; 0x1f228 <FLASH_readByte>
+   1f906:	c8 2b       	or	r28, r24
+   1f908:	20 e0       	ldi	r18, 0x00	; 0
+   1f90a:	ae 01       	movw	r20, r28
+   1f90c:	c7 01       	movw	r24, r14
+   1f90e:	b6 01       	movw	r22, r12
+   1f910:	d3 dc       	rcall	.-1626   	; 0x1f2b8 <validate_image>
+   1f912:	88 23       	and	r24, r24
+  expected_crc16_checksum <<= 8;
+   1f914:	39 f0       	breq	.+14     	; 0x1f924 <CheckFlashImage+0x12e>
+   1f916:	21 e0       	ldi	r18, 0x01	; 1
+  expected_crc16_checksum |= FLASH_readByte(CRC16_CHECKSUM_ADDRESS + 1);
+   1f918:	ae 01       	movw	r20, r28
+   1f91a:	c7 01       	movw	r24, r14
+   1f91c:	b6 01       	movw	r22, r12
+   1f91e:	cc dc       	rcall	.-1640   	; 0x1f2b8 <validate_image>
+   1f920:	81 11       	cpse	r24, r1
+   1f922:	5e 98       	cbi	0x0b, 6	; 11
+   1f924:	59 df       	rcall	.-334    	; 0x1f7d8 <invalidate_magic_number_and_reset>
+  
+  // use the filesize and checksum to validate the file contained in Flash
+  // also validate that none of the addresses in the hex records are out of
+  // range for the bootloader size while we're at it, but don't write flash yet
+  if(validate_image(hex_file_size, expected_crc16_checksum, 0)){
+   1f926:	df 91       	pop	r29
+   1f928:	cf 91       	pop	r28
+   1f92a:	ff 90       	pop	r15
+   1f92c:	ef 90       	pop	r14
+   1f92e:	df 90       	pop	r13
+   1f930:	cf 90       	pop	r12
+   1f932:	08 95       	ret
+
+0001f934 <verifySpace>:
+  do getch(); while (--count);
+  verifySpace();
+}
+
+void verifySpace() {
+  if (getch() != CRC_EOP) {
+   1f934:	3f df       	rcall	.-386    	; 0x1f7b4 <getch>
+   1f936:	80 32       	cpi	r24, 0x20	; 32
+   1f938:	19 f0       	breq	.+6      	; 0x1f940 <verifySpace+0xc>
+   1f93a:	88 e0       	ldi	r24, 0x08	; 8
+    watchdogConfig(WATCHDOG_16MS);    // shorten WD timeout
+   1f93c:	47 df       	rcall	.-370    	; 0x1f7cc <watchdogConfig>
+   1f93e:	ff cf       	rjmp	.-2      	; 0x1f93e <verifySpace+0xa>
+   1f940:	84 e1       	ldi	r24, 0x14	; 20
+   1f942:	31 cf       	rjmp	.-414    	; 0x1f7a6 <putch>
+
+0001f944 <getNch>:
+    ::[count] "M" (UART_B_VALUE)
+  );
+}
+#endif
+
+void getNch(uint8_t count) {
+   1f944:	cf 93       	push	r28
+   1f946:	c8 2f       	mov	r28, r24
+  do getch(); while (--count);
+   1f948:	35 df       	rcall	.-406    	; 0x1f7b4 <getch>
+   1f94a:	c1 50       	subi	r28, 0x01	; 1
+   1f94c:	e9 f7       	brne	.-6      	; 0x1f948 <getNch+0x4>
+   1f94e:	cf 91       	pop	r28
+  verifySpace();
+}
+   1f950:	f1 cf       	rjmp	.-30     	; 0x1f934 <verifySpace>
+
+0001f952 <appStart>:
+
+void appStart(uint8_t rstFlags) {
+  // save the reset flags in the designated register
+  //  This can be saved in a main program by putting code in .init0 (which
+  //  executes before normal c init code) to save R2 to a global variable.
+  __asm__ __volatile__ ("mov r2, %0\n" :: "r" (rstFlags));
+   1f952:	28 2e       	mov	r2, r24
+
+  watchdogConfig(WATCHDOG_OFF);
+   1f954:	80 e0       	ldi	r24, 0x00	; 0
+   1f956:	3a df       	rcall	.-396    	; 0x1f7cc <watchdogConfig>
+   1f958:	ee 27       	eor	r30, r30
+  __asm__ __volatile__ (
+   1f95a:	ff 27       	eor	r31, r31
+   1f95c:	09 94       	ijmp
+
+0001f95e <__eerd_byte_m1284p>:
+   1f95e:	f9 99       	sbic	0x1f, 1	; 31
+   1f960:	fe cf       	rjmp	.-4      	; 0x1f95e <__eerd_byte_m1284p>
+   1f962:	92 bd       	out	0x22, r25	; 34
+   1f964:	81 bd       	out	0x21, r24	; 33
+   1f966:	f8 9a       	sbi	0x1f, 0	; 31
+   1f968:	99 27       	eor	r25, r25
+   1f96a:	80 b5       	in	r24, 0x20	; 32
+   1f96c:	08 95       	ret
+
+0001f96e <__eewr_byte_m1284p>:
+   1f96e:	26 2f       	mov	r18, r22
+
+0001f970 <__eewr_r18_m1284p>:
+   1f970:	f9 99       	sbic	0x1f, 1	; 31
+   1f972:	fe cf       	rjmp	.-4      	; 0x1f970 <__eewr_r18_m1284p>
+   1f974:	1f ba       	out	0x1f, r1	; 31
+   1f976:	92 bd       	out	0x22, r25	; 34
+   1f978:	81 bd       	out	0x21, r24	; 33
+   1f97a:	20 bd       	out	0x20, r18	; 32
+   1f97c:	0f b6       	in	r0, 0x3f	; 63
+   1f97e:	f8 94       	cli
+   1f980:	fa 9a       	sbi	0x1f, 2	; 31
+   1f982:	f9 9a       	sbi	0x1f, 1	; 31
+   1f984:	0f be       	out	0x3f, r0	; 63
+   1f986:	01 96       	adiw	r24, 0x01	; 1
+   1f988:	08 95       	ret

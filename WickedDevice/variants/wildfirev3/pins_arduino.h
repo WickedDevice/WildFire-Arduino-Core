@@ -96,7 +96,7 @@ static const uint8_t A7 = 31;
 #define digitalPinToInterrupt(p)  ((p) == 2 ? 0 : ((p) == 3 ? 1 : ((p) == 22 ? 2 : NOT_AN_INTERRUPT)))
 
 #ifndef ARDUINO_MAIN
-extern const uint8_t PROGMEM digital_pin_to_PCMSK_bit_PGM;
+extern const uint8_t PROGMEM digital_pin_to_PCMSK_bit_PGM[];
 #endif
 
 #define digitalPinToPCMSKbit(p) (pgm_read_byte(digital_pin_to_PCMSK_bit_PGM + p))

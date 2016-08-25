@@ -49,8 +49,8 @@
 //  PCINT27/TXD1/INT1 (D 3) PD3 12|        |33  PA4 (D28/AIN4) PCINT4/ADC4
 // PCINT28/XCK1/OC1B *(D 8) PD4 13|        |32  PA5 (D29/AIN5) PCINT5/ADC5
 //      PCINT29/OC1A *(D 5) PD5 14|        |31  PA6 (D30/AIN6) PCINT6/ADC6
-//   PCINT30/OC2B/ICP (D 6) PD6 15|        |30  PA7 (D31/AIN7) PCINT7/ADC7
-//       PCINT31/OC2A (D10) PD7 16|        |29  AREF
+//  PCINT30/OC2B/ICP *(D 6) PD6 15|        |30  PA7 (D31/AIN7) PCINT7/ADC7
+//      PCINT31/OC2A *(D10) PD7 16|        |29  AREF
 //                          VCC 17|        |28  GND
 //                          GND 18|        |27  AVCC
 //        PCINT16/SCL (D20) PC0 19|        |26  PC7 (D18) PCINT23/TOSC2
